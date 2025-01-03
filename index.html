@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bim Regime</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+</head>
+
+<body>
+    <aside id="sidebar">
+        <img id="company-logo" src="./assets/company-logo.svg" alt="logo">
+        <ul id="nav-buttons">
+            <li class="blue-btn"><span class="material-symbols-rounded">apartment</span>&nbsp; Projects</li>
+            <li class="blue-btn"><span class="material-symbols-rounded">group</span>&nbsp; Members</li>
+        </ul>
+    </aside>
+    <main id="content">
+        <div class="page" id="projects-page">
+            <dialog id="new-project-modal">
+                <form id="new-project-form">
+                    <h2>New Project</h2>
+                    <div class="input-list">
+                        <div class="form-field-container">
+                            <label><span class="material-symbols-rounded">apartment</span> &nbsp; Name</label> 
+                            <input name="name" type="text" placeholder="Project name">
+                            <p>Tip: Give a short name</p>
+                        </div>
+                        <div class="form-field-container">
+                            <label><span class="material-symbols-outlined">subject</span> &nbsp; Description</label>
+                            <textarea name="description" cols="30" rows="5" placeholder="Project description"></textarea>
+                        </div>
+                        <div class="form-field-container">
+                            <label for=""><span class="material-symbols-outlined">account_circle</span>&nbsp; Role</label>
+                            <select name="userRole">
+                                <option>Arch</option>
+                                <option>Eng</option>
+                                <option>Dev</option>
+                            </select>
+                        </div>
+                        <div class="form-field-container">
+                            <label for=""><span class="material-symbols-outlined">work_history</span>&nbsp; Status</label>
+                            <select name="status">
+                                <option>Active</option>
+                                <option>Inactive</option>
+                            </select>
+                        </div>
+                        <div class="form-field-container">
+                            <label for=""><span class="material-symbols-outlined">calendar_month</span>&nbsp; Finish Date</label>
+                            <input name="finishDate" type="date">
+                        </div>
+                    </div>
+                    <div id="form-buttons">
+                        <button type="reset" class="blank-btn">Cancel</button>
+                        <button type="submit" class="blank-btn">Create</button>
+                    </div>
+                </form>
+            </dialog>
+            <header class="page-header">
+                <h2>Projects</h2>
+                <div>
+                    <button id="new-project-btn" class="blue-btn"><span class="material-symbols-rounded">add</span>&nbsp; New Project</button>
+                </div>
+            </header>
+            <div id="project-list">
+                <!-- <div class="project-card">
+                    <div class="card-header">
+                        <p class="project-icon">HC</p>
+                        <div>
+                            <h5 class="card-header-name">Hospital center</h5>
+                            <p class="card-header-desc">Community Hospital located at downtown</p>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-property">
+                            <p style="color: #969696;">Status</p>
+                            <p>Active</p>
+                        </div>
+                        <div class="card-property">
+                            <p style="color: #969696;">Status</p>
+                            <p>Active</p>
+                        </div>
+                        <div class="card-property">
+                            <p style="color: #969696;">Status</p>
+                            <p>Active</p>
+                        </div>
+                        <div class="card-property">
+                            <p style="color: #969696;">Status</p>
+                            <p>Active</p>
+                        </div>
+                        
+    
+                    </div>
+                </div> -->
+            </div>
+        </div>
+        <div class="page, hidden" id="project-details">
+            <header>
+                <div>
+                    <h2>Hospital Center</h2>
+                    <p>Community Hospital</p>
+                </div>
+            </header>
+            <div class="main-page-content">
+                <div  style="display: flex; flex-direction: column;">
+                  <div class="dashboard-card">
+                    <div class="dashboard-card-header">
+                        <p class="project-icon">HC</p>
+                        <button class="blank-btn">Edit</button>
+                    </div>
+                    <div style="margin: 5px 20px;">
+                        <h4>Hospital Center</h4>
+                        <p>Community Hospital</p>
+                    </div>
+                    <div class="dashboard-card-section">
+                        <div><p>Status</p> <h5>Active</h5></div>
+                        <div><p>Cost</p> <h5>$44444</h5></div>
+                        <div><p>Role</p> <h5>Engineer</h5></div>
+                        <div><p>Finish Date</p> <h5>2025-01-01</h5></div>
+                    </div>
+                    <div class="progress-bar"><div class="progress-bar-fill"> 80%</div></div>
+                  </div>
+                  <div class="dashboard-card" style="flex-grow: 1;">
+                     <div id="to-do-header">
+                     <h4>To-Do</h4>
+                     <div id="to-do-search"><span style="margin: 2px;" class="material-symbols-outlined">search</span><p style="color: grey;">Search To-Do's by name</p><span class="material-symbols-outlined">add_task</span></div>
+                  </div>
+                  <div id="to-do-container">
+                      <div class="to-do-item">
+                        <div class="to-do-desc">
+                            <div><span style="color: green;" class="material-symbols-outlined">check_circle</span>&nbsp; </div>
+                            <div>Task desc is shown here</div>
+                        </div>
+                        <div>Tue, 31 Dec</div>
+                    </div>
+                    <div class="to-do-item">
+                        <div class="to-do-desc">
+                            <div><span class="material-symbols-outlined">radio_button_unchecked</span>&nbsp; </div>
+                            <div>Task desc is shown hereTask desc is shown hereTask desc is shown here</div>
+                        </div>
+                        <div>Tue, 31 Dec</div>
+                    </div>
+                </div>
+                </div>  
+            </div>
+            <div id="viewer-container" class="dashboard-card"></div>
+            </div>
+                
+        </div>
+        <div id="members-page" class="page, hidden">
+            <dialog id="new-member-modal">
+                <form action="">
+                    <h2>New Member</h2>
+                    <div class="input-list">
+                        <div class="form-field-container">
+                            <label><span class="material-symbols-outlined">person</span>&nbsp; Name</label> 
+                            <input type="text" placeholder="Member name">
+                        </div>
+                        <div class="form-field-container">
+                            <label for=""><span class="material-symbols-outlined">work_history</span>&nbsp; Status</label>
+                            <select>
+                                <option>Active</option>
+                                <option>Inactive</option>
+                            </select>
+                        </div>
+                        <div class="form-field-container">
+                            <label for=""><span class="material-symbols-outlined">account_circle</span>&nbsp; Role</label>
+                            <select>
+                                <option>Arch</option>
+                                <option>Eng</option>
+                                <option>Dev</option>
+                            </select>
+                        </div>
+                        <div class="form-field-container">
+                            <label><span class="material-symbols-outlined">source_environment</span>&nbsp; Company</label> 
+                            <input type="text" placeholder="Member name">
+                        </div>
+                        
+                        
+                    </div>
+                    <div id="form-buttons">
+                        <button class="blank-btn">Cancel</button>
+                        <button class="blank-btn">Create</button>
+                    </div>
+                </form>
+            </dialog>
+            <header class="page-header">
+                <h2>Members</h2>
+                <div>
+                    <button class="blue-btn"><span class="material-symbols-rounded">add</span>&nbsp; New Member</button>
+                </div>
+            </header>
+            <div class="main-page-content">
+                <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Status</th>
+                        <th>Role</th>
+                        <th>Company</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="user-detail"><span class="user-icon">SN</span>Sahil Nama</td>
+                        <td>Active</td>
+                        <td>Engineer</td>
+                        <td>ABC Inc</td>
+                        <td class="action-buttons">
+                            <button class="blank-btn"><span class="material-symbols-outlined">edit</span></button>
+                            <button class="blank-btn" style="color: red;"><span class="material-symbols-outlined">delete</span></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="user-detail"><span class="user-icon">SN</span>Sahil Nama</td>
+                        <td>Active</td>
+                        <td>Engineer</td>
+                        <td>ABC Inc</td>
+                        <td class="action-buttons">
+                            <button class="blank-btn"><span class="material-symbols-outlined">edit</span></button>
+                            <button class="blank-btn" style="color: red;"><span class="material-symbols-outlined">delete</span></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="user-detail"><span class="user-icon">SN</span>Sahil Nama</td>
+                        <td>Active</td>
+                        <td>Engineer</td>
+                        <td>ABC Inc</td>
+                        <td class="action-buttons">
+                            <button class="blank-btn"><span class="material-symbols-outlined">edit</span></button>
+                            <button class="blank-btn" style="color: red;"><span class="material-symbols-outlined">delete</span></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="user-detail"><span class="user-icon">SN</span>Sahil Nama</td>
+                        <td>Active</td>
+                        <td>Engineer</td>
+                        <td>ABC Inc</td>
+                        <td class="action-buttons">
+                            <button class="blank-btn"><span class="material-symbols-outlined">edit</span></button>
+                            <button class="blank-btn" style="color: red;"><span class="material-symbols-outlined">delete</span></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="user-detail"><span class="user-icon">SN</span>Sahil Nama</td>
+                        <td>Active</td>
+                        <td>Engineer</td>
+                        <td>ABC Inc</td>
+                        <td class="action-buttons">
+                            <button class="blank-btn"><span class="material-symbols-outlined">edit</span></button>
+                            <button class="blank-btn" style="color: red;"><span class="material-symbols-outlined">delete</span></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="user-detail"><span class="user-icon">SN</span>Sahil Nama</td>
+                        <td>Active</td>
+                        <td>Engineer</td>
+                        <td>ABC Inc</td>
+                        <td class="action-buttons">
+                            <button class="blank-btn"><span class="material-symbols-outlined">edit</span></button>
+                            <button class="blank-btn" style="color: red;"><span class="material-symbols-outlined">delete</span></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="user-detail"><span class="user-icon">SN</span>Sahil Nama</td>
+                        <td>Active</td>
+                        <td>Engineer</td>
+                        <td>ABC Inc</td>
+                        <td class="action-buttons">
+                            <button class="blank-btn"><span class="material-symbols-outlined">edit</span></button>
+                            <button class="blank-btn" style="color: red;"><span class="material-symbols-outlined">delete</span></button>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+            </div>
+        </div>
+    </main>
+    <script type="module" src="./src/index.ts"></script>
+</body>
+
+</html>
