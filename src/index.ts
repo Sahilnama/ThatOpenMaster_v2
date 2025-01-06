@@ -41,9 +41,16 @@ if (projectForm && projectForm instanceof HTMLFormElement) {
             userRole: formData.get('userRole') as UserRole,
             status: formData.get('status') as Status,
         };
-        const project = projectsManager.newProject(projectData);
-        projectForm.reset();
-        toggleModal('new-project-modal', false);
+        try{
+
+            const project = projectsManager.newProject(projectData);
+            projectForm.reset();
+            toggleModal('new-project-modal', false);
+        }
+        catch(error){
+            alert(error.message);
+        }
+
     });
 
     projectForm.addEventListener('reset', () => {

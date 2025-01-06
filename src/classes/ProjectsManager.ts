@@ -1,10 +1,10 @@
 import { IProject, Project } from './Project';
 
-export class ProjectsManager{
+export class ProjectsManager {
     projectsList: Project[] = [];
     ui: HTMLElement;
 
-    constructor(container: HTMLElement){
+    constructor(container: HTMLElement) {
         this.ui = container;
         this.ui.innerHTML = `
         <div class="project-card">
@@ -32,21 +32,65 @@ export class ProjectsManager{
                             <p style="color: #969696;">Progress</p>
                             <p>100%</p>
                         </div>
-                </div>`
+                </div>`;
     }
 
-    newProject(data: IProject){
+    newProject(data: IProject) {
+        const projectNames = this.projectsList.map((project) => {
+            return project.name;
+        })
+
+        const nameInUse = projectNames.includes(data.name);
+
+        if (nameInUse) {
+            throw new Error(`Project with name ${data.name} already exists`);
+            return;
+        }
+
         const project = new Project(data);
         this.ui.append(project.ui);
         this.projectsList.push(project);
         return project;
     }
 
-    getProject(){}
+    getProject(id: string) {
+        const project = this.projectsList.find((project) => {
+            return project.id === id;
+        });
 
-    deleteProject(){}
+        return project;
+    }
 
-    exportToJSON(){}
+    getProjectByName(name: string) {
+        const project = this.projectsList.find((project) => {
+            return project.name === name;
+        });
 
-    importFromJSON(){}
+        return project;
+    }
+
+    deleteProject(id: string) {
+        const project = this.getProject(id);
+        if (!project) {
+            return;
+        }
+
+        project.ui.remove();
+        const remainingProjects = this.projectsList.filter((project) => {
+            return project.id !== id;
+        });
+        this.projectsList = remainingProjects;
+    }
+
+    exportToJSON() {}
+
+    importFromJSON() {}
+
+    calcTotalCost() {
+        return this.projectsList.reduce((acc, project) => {
+            return acc + project.cost;
+        }, 0);
+    }
+
+
 }
