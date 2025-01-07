@@ -85,6 +85,14 @@ li {
     overflow: hidden; 
 }
 
+.close-btn{
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    color: white;
+
+}
+
 /* Sidebar styles */
 #sidebar {
     background-color: var(--background-100);
@@ -383,4 +391,57 @@ input:focus, textarea:focus, select:focus{
 .action-buttons > .blank-btn:hover{
     background-color: transparent;
     size: 1.1rem;
+}
+
+/* pop-up styles */
+
+#pop-up-modal{
+    background-color: transparent;
+    border: none;
+    margin-top: 25px;
+    background-color: var(--background);
+    min-width: 200px;
+    max-width: 400px;
+    max-height: 200px;
+    min-height: 50px;
+    border-radius: 5px;
+    overflow: hidden;
+}
+#pop-up-modal::backdrop{
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: none;
+}
+
+#pop-up-modal header{
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 5px 10px;
+    gap: 5px;
+    width: 100%;
+}
+
+#pop-up-modal .message{
+    margin: 5px;
+    padding: 5px;
+    color: white;
+}
+
+.pop-error{
+    background-color: rgb(240, 61, 61);
+}
+
+.pop-warning{
+    background-color: orange;
+    
+}   
+
+.pop-info{
+    background-color: rgb(56, 56, 231);
+    
+}
+
+.pop-success{
+    background-color: rgb(21, 161, 21);
 }

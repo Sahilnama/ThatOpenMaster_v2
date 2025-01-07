@@ -38,7 +38,7 @@ export class ProjectsManager {
     newProject(data: IProject) {
         const projectNames = this.projectsList.map((project) => {
             return project.name;
-        })
+        });
 
         const nameInUse = projectNames.includes(data.name);
 

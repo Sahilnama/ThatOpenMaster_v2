@@ -1,21 +1,7 @@
 import { IProject, UserRole, Status } from './classes/Project';
-import { ProjectsManager } from './classes/ProjectsManager';
+import { ProjectsManager} from './classes/ProjectsManager';
+import { toggleModal, ShowPopUp, HidePopUpWhenClosed } from './classes/GlobalFunctions';
 
-const toggleModal = (id: string, state: true|false) => {
-    const modal = document.getElementById(id);
-    if (modal && modal instanceof HTMLDialogElement) {
-        // check if modal is a dialog element as all html elements do not have toggleModal method
-        if (state == false) {
-            modal.close();
-        } else if (state == true) {
-            modal.showModal();
-        }else{
-            console.warn('Invalid state value');
-        }
-    } else {
-        console.warn(`Modal named ${id} not found`);
-    }
-};
 
 const projectsList = document.getElementById('project-list') as HTMLElement;
 const projectsManager = new ProjectsManager(projectsList);
@@ -48,14 +34,14 @@ if (projectForm && projectForm instanceof HTMLFormElement) {
             toggleModal('new-project-modal', false);
         }
         catch(error){
-            alert(error.message);
+            ShowPopUp('error', error.message);
+            HidePopUpWhenClosed();
         }
 
     });
 
     projectForm.addEventListener('reset', () => {
         projectForm.reset();
-        console.log("its running")
         toggleModal('new-project-modal', false);
     });
 } else {
