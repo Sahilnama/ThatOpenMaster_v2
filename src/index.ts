@@ -1,10 +1,11 @@
 import { IProject, UserRole, Status } from './classes/Project';
-import { ProjectsManager} from './classes/ProjectsManager';
-import { toggleModal, ShowPopUp, HidePopUpWhenClosed } from './classes/GlobalFunctions';
-
+import { ProjectsManager } from './classes/ProjectsManager';
+import {toggleModal, ShowPopUp, HidePopUpWhenClosed} from './classes/GlobalFunctions';
 
 const projectsList = document.getElementById('project-list') as HTMLElement;
 const projectsManager = new ProjectsManager(projectsList);
+const projectDetails = document.getElementById('project-details') as HTMLElement;
+const projectsPage = document.getElementById('projects-page') as HTMLElement;
 
 const newProjectBtn = document.getElementById('new-project-btn');
 if (newProjectBtn) {
@@ -27,17 +28,14 @@ if (projectForm && projectForm instanceof HTMLFormElement) {
             userRole: formData.get('userRole') as UserRole,
             status: formData.get('status') as Status,
         };
-        try{
-
+        try {
             const project = projectsManager.newProject(projectData);
             projectForm.reset();
             toggleModal('new-project-modal', false);
-        }
-        catch(error){
+        } catch (error) {
             ShowPopUp('error', error.message);
             HidePopUpWhenClosed();
         }
-
     });
 
     projectForm.addEventListener('reset', () => {
@@ -47,3 +45,11 @@ if (projectForm && projectForm instanceof HTMLFormElement) {
 } else {
     console.warn('New Project Form not found');
 }
+
+const projectsPageBtn = document.getElementById('projects-page-btn');
+projectsPageBtn?.addEventListener('click', () => {
+    projectDetails.classList.add('hidden');
+    // projectDetails.classList.toggle();
+    projectsPage.classList.remove('hidden');
+})
+    

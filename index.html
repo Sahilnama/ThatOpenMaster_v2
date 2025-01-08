@@ -14,8 +14,8 @@
     <aside id="sidebar">
         <img id="company-logo" src="./assets/company-logo.svg" alt="logo">
         <ul id="nav-buttons">
-            <li class="blue-btn"><span class="material-symbols-rounded">apartment</span>&nbsp; Projects</li>
-            <li class="blue-btn"><span class="material-symbols-rounded">group</span>&nbsp; Members</li>
+            <li id="projects-page-btn" class="blue-btn"><span class="material-symbols-rounded">apartment</span>&nbsp; Projects</li>
+            <li id="project-details-btn" class="blue-btn"><span class="material-symbols-rounded">group</span>&nbsp; Members</li>
         </ul>
     </aside>
     <main id="content">
@@ -70,11 +70,11 @@
             <div id="project-list">
                 </div>
         </div>
-        <div class="page, hidden" id="project-details">
+        <div class="page hidden" id="project-details">
             <header>
                 <div>
-                    <h2>Hospital Center</h2>
-                    <p>Community Hospital</p>
+                    <h2 data-project-info='name'>Hospital Center</h2>
+                    <p data-project-info='description'>Community Hospital</p>
                 </div>
             </header>
             <div class="main-page-content">
@@ -85,14 +85,14 @@
                         <button class="blank-btn">Edit</button>
                     </div>
                     <div style="margin: 5px 20px;">
-                        <h4>Hospital Center</h4>
-                        <p>Community Hospital</p>
+                        <h4 data-project-info='name'>Hospital Center</h4>
+                        <p data-project-info='description'>Community Hospital</p>
                     </div>
                     <div class="dashboard-card-section">
-                        <div><p>Status</p> <h5>Active</h5></div>
-                        <div><p>Cost</p> <h5>$44444</h5></div>
-                        <div><p>Role</p> <h5>Engineer</h5></div>
-                        <div><p>Finish Date</p> <h5>2025-01-01</h5></div>
+                        <div><p>Status</p> <h5 data-project-info='status'>Active</h5></div>
+                        <div><p>Cost</p> <h5 data-project-info='cost'>$44444</h5></div>
+                        <div><p>Role</p> <h5 data-project-info='role'>Engineer</h5></div>
+                        <div><p>Finish Date</p> <h5 data-project-info='finishDate'>2025-01-01</h5></div>
                     </div>
                     <div class="progress-bar"><div class="progress-bar-fill"> 80%</div></div>
                   </div>

@@ -248,7 +248,7 @@ input:focus, textarea:focus, select:focus{
 }
 
 .page{
-    display: flex;
+    /* display: flex; */
     flex-direction: column;
     height: 100%;
 }
@@ -416,10 +416,9 @@ input:focus, textarea:focus, select:focus{
     color: white;
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-between;
     padding: 5px 10px;
     gap: 5px;
-    width: 100%;
 }
 
 #pop-up-modal .message{
