@@ -71,7 +71,7 @@ export class ProjectsManager {
         this.projectsList.push(project);
         return project;
     }
-
+//private method to set the details page
     private setDetailsPage(data: Project){
         const projectDetails = document.getElementById('project-details')
         if(!projectDetails){
