@@ -1,3 +1,4 @@
+import { genColorFn, getNameInitials } from './GlobalFunctions';
 import { IProject, Project } from './Project';
 
 export class ProjectsManager {
@@ -10,37 +11,10 @@ export class ProjectsManager {
                     name: 'Sample Project',
                     description: 'The new project will replace this Sample project.',
                     finishDate: new Date(), // create a new date object from the form input as string
-                    userRole: 'eng',
-                    status: 'active',
+                    userRole: 'Engineer',
+                    status: 'Active',
                 };
         this.newProject(defaultProjectData);
-        // this.ui.innerHTML = `
-        // <div class="project-card">
-        //             <div class="card-header">
-        //                 <p class="project-icon">DP</p>
-        //                 <div>
-        //                     <h5 class="card-header-name">Sample Project</h5>
-        //                     <p class="card-header-desc">The new project will replace this Sample project.</p>
-        //                 </div>
-        //             </div>
-        //             <div class="card-content">
-        //                 <div class="card-property">
-        //                     <p style="color: #969696;">Status</p>
-        //                     <p>active</p>
-        //                 </div>
-        //                 <div class="card-property">
-        //                     <p style="color: #969696;">Role</p>
-        //                     <p>Eng</p>
-        //                 </div>
-        //                 <div class="card-property">
-        //                     <p style="color: #969696;">Cost</p>
-        //                     <p>$999</p>
-        //                 </div>
-        //                 <div class="card-property">
-        //                     <p style="color: #969696;">Progress</p>
-        //                     <p>100%</p>
-        //                 </div>
-        //         </div>`;
     }
 
     newProject(data: IProject) {
@@ -78,13 +52,16 @@ export class ProjectsManager {
             console.warn('Project Details not found');
             return;
         }
+        const projectIcon = projectDetails.querySelector("[data-project-info='project-icon'") as HTMLElement;
         const name = projectDetails.querySelectorAll("[data-project-info='name'")
         const description = projectDetails.querySelectorAll("[data-project-info='description'")
         const status = projectDetails.querySelector("[data-project-info='status'")
         const role = projectDetails.querySelector("[data-project-info='role'")
         const cost = projectDetails.querySelector("[data-project-info='cost'")
         const finishDate = projectDetails.querySelector("[data-project-info='finishDate'")
-        if(name && description && status && role && cost && finishDate){
+        if(projectIcon && name && description && status && role && cost && finishDate){
+                projectIcon.textContent = getNameInitials(data.name);
+                projectIcon.style.backgroundColor = data.color;
                 name.forEach((element) => {
                     element.textContent = data.name;
                 })

@@ -1,7 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
+import { getNameInitials, genColorFn } from './GlobalFunctions';
 
-export type UserRole = 'arch' | 'eng' | 'dev';
-export type Status = 'pending' | 'active' | 'completed';
+export type UserRole = 'Architect' | 'Engineer' | 'Developer';
+export type Status = 'Pending' | 'Active' | 'Completed';
 export interface IProject {
     name: string;
     description: string;
@@ -22,6 +23,7 @@ export class Project implements IProject {
     cost: number = 0;
     progress: number = 0;
     id: string
+    color: string;
 
 
     constructor(data: IProject) {
@@ -38,11 +40,12 @@ export class Project implements IProject {
     }
     setUI(){
         if(this.ui){return}
+        this.color = genColorFn(); 
         this.ui = document.createElement('div');
         this.ui.className = 'project-card';
         this.ui.innerHTML = `
                     <div class="card-header">
-                        <p class="project-icon">HC</p>
+                        <p style = "background-color:${this.color}" class="project-icon">${getNameInitials(this.name)}</p>
                         <div>
                             <h5 class="card-header-name">${this.name}</h5>
                             <p class="card-header-desc">${this.description}</p>
@@ -66,5 +69,7 @@ export class Project implements IProject {
                             <p>${this.progress * 100}%</p>
                         </div>
                     </div>`;
-    }
+                  
+            }
+    
 }
