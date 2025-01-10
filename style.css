@@ -38,10 +38,6 @@ body {
     margin: 0;
 }
 
-.hidden {
-    display: none;
-}
-
 li {
     list-style-type: none;
 }
@@ -416,10 +412,9 @@ input:focus, textarea:focus, select:focus{
     color: white;
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-between;
     padding: 5px 10px;
     gap: 5px;
-    width: 100%;
 }
 
 #pop-up-modal .message{
@@ -444,4 +439,13 @@ input:focus, textarea:focus, select:focus{
 
 .pop-success{
     background-color: rgb(21, 161, 21);
+}
+
+
+
+
+
+
+.hidden {
+    display: none;
 }
