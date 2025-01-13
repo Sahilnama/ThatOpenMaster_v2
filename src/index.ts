@@ -16,21 +16,21 @@ if (newProjectBtn) {
     console.warn('New Project Button not found');
 }
 
-const projectForm = document.getElementById('new-project-form');
-if (projectForm && projectForm instanceof HTMLFormElement) {
-    projectForm.addEventListener('submit', (e) => {
+const newProjectForm = document.getElementById('new-project-form');
+if (newProjectForm && newProjectForm instanceof HTMLFormElement) {
+    newProjectForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        const formData = new FormData(projectForm);
+        const formData = new FormData(newProjectForm);
         const projectData: IProject = {
             name: formData.get('name') as string,
             description: formData.get('description') as string,
-            finishDate: new Date(formData.get('finishDate') as string), // create a new date object from the form input as string
+            finishDate: formData.get('finishDate') ? new Date(formData.get('finishDate') as string) : new Date(), // create a new date object from the form input as string
             userRole: formData.get('userRole') as UserRole,
             status: formData.get('status') as Status,
         };
         try {
-            const project = projectsManager.newProject(projectData);
-            projectForm.reset();
+            projectsManager.newProject(projectData);
+            newProjectForm.reset();
             toggleModal('new-project-modal', false);
         } catch (error) {
             ShowPopUp('error', error.message);
@@ -38,13 +38,52 @@ if (projectForm && projectForm instanceof HTMLFormElement) {
         }
     });
 
-    projectForm.addEventListener('reset', () => {
-        projectForm.reset();
+    newProjectForm.addEventListener('reset', () => {
+        newProjectForm.reset();
         toggleModal('new-project-modal', false);
     });
 } else {
     console.warn('New Project Form not found');
 }
+
+const editProjectForm = document.getElementById('edit-project-form');
+if(editProjectForm && editProjectForm instanceof HTMLFormElement){
+    editProjectForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const formData = new FormData(editProjectForm);
+        const projectData: IProject = {
+            name: formData.get('name') as string,
+            description: formData.get('description') as string,
+            finishDate: formData.get('finishDate') ? new Date(formData.get('finishDate') as string) : new Date(), // create a new date object from the form input as string
+            userRole: formData.get('userRole') as UserRole,
+            status: formData.get('status') as Status,
+        };
+        try {
+            toggleModal('edit-project-modal', false)
+            projectsManager.updateProject(projectData)
+        } catch (error) {
+            ShowPopUp('error', error.message);
+            HidePopUpWhenClosed();
+        }
+    });
+
+    editProjectForm.addEventListener('reset', () => {
+        editProjectForm.reset();
+        toggleModal('edit-project-modal', false);
+    });
+}
+
+
+const editProjectBtn = document.getElementById('edit-project-btn') as HTMLElement
+editProjectBtn?.addEventListener('click', () => {
+    const form = document.getElementById('edit-project-form') as HTMLFormElement;
+    if(!form){
+        console.warn('Edit Project Form not found');
+        return;
+    }
+    toggleModal('edit-project-modal', true);
+    projectsManager.setupEditForm();
+})
 
 const projectsPageBtn = document.getElementById('projects-page-btn');
 projectsPageBtn?.addEventListener('click', () => {

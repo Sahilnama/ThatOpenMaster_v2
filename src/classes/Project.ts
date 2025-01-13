@@ -43,6 +43,11 @@ export class Project implements IProject {
         this.color = genColorFn(); 
         this.ui = document.createElement('div');
         this.ui.className = 'project-card';
+        this.setCardUI()
+                  
+            }
+
+    setCardUI(){
         this.ui.innerHTML = `
                     <div class="card-header">
                         <p style = "background-color:${this.color}" class="project-icon">${getNameInitials(this.name)}</p>
@@ -69,7 +74,7 @@ export class Project implements IProject {
                             <p>${this.progress * 100}%</p>
                         </div>
                     </div>`;
-                  
-            }
+    }
+
     
 }

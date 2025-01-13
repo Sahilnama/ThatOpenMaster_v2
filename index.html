@@ -38,9 +38,9 @@
                         <div class="form-field-container">
                             <label for=""><span class="material-symbols-outlined">account_circle</span>&nbsp; Role</label>
                             <select name="userRole">
-                                <option>Arch</option>
-                                <option>Eng</option>
-                                <option>Dev</option>
+                                <option>Architect</option>
+                                <option>Engineer</option>
+                                <option>Developer</option>
                             </select>
                         </div>
                         <div class="form-field-container">
@@ -71,6 +71,45 @@
                 </div>
         </div>
         <div class="page hidden" id="project-details">
+            <dialog id="edit-project-modal">
+                <form id="edit-project-form">
+                    <h2>Edit Project</h2>
+                    <div class="input-list">
+                        <div class="form-field-container">
+                            <label><span class="material-symbols-rounded">apartment</span> &nbsp; Name</label> 
+                            <input data-edit-project-info="name" name="name" type="text" placeholder="Project name">
+                            <p>Tip: Give a short name</p>
+                        </div>
+                        <div class="form-field-container">
+                            <label><span class="material-symbols-outlined">subject</span> &nbsp; Description</label>
+                            <textarea data-edit-project-info='description' name="description" cols="30" rows="5" placeholder="Project description"></textarea>
+                        </div>
+                        <div class="form-field-container">
+                            <label for=""><span class="material-symbols-outlined">account_circle</span>&nbsp; Role</label>
+                            <select data-edit-project-info='userRole' name="userRole">
+                                <option>Architect</option>
+                                <option>Engineer</option>
+                                <option>Developer</option>
+                            </select>
+                        </div>
+                        <div class="form-field-container">
+                            <label for=""><span class="material-symbols-outlined">work_history</span>&nbsp; Status</label>
+                            <select data-edit-project-info='status' name="status">
+                                <option>Active</option>
+                                <option>Inactive</option>
+                            </select>
+                        </div>
+                        <div class="form-field-container">
+                            <label for=""><span class="material-symbols-outlined">calendar_month</span>&nbsp; Finish Date</label>
+                            <input data-edit-project-info='finishDate' name="finishDate" type="date">
+                        </div>
+                    </div>
+                    <div id="form-buttons">
+                        <button type="reset" class="blank-btn">Cancel</button>
+                        <button type="submit" class="blank-btn">Update</button>
+                    </div>
+                </form>
+            </dialog>
             <header>
                 <div>
                     <h2 data-project-info='name'>Hospital Center</h2>
@@ -82,7 +121,7 @@
                   <div class="dashboard-card">
                     <div class="dashboard-card-header">
                         <p data-project-info='project-icon' class="project-icon">HC</p>
-                        <button class="blank-btn">Edit</button>
+                        <button id="edit-project-btn" class="blank-btn">Edit</button>
                     </div>
                     <div style="margin: 5px 20px;">
                         <h4 data-project-info='name'>Hospital Center</h4>
