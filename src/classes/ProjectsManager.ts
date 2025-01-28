@@ -87,7 +87,6 @@ export class ProjectsManager {
 //private method to set the details page
     private setDetailsPage(data: Project){
         const projectDetails = document.getElementById('project-details')
-        console.log(data);
         if(!projectDetails){
             console.warn('Project Details not found');
             return;
@@ -121,6 +120,7 @@ export class ProjectsManager {
                 // Append each task's UI to the task container
                 data.taskList.forEach((task) => {
                 taskContainer.appendChild(task.taskUi);
+                this.currentProject.taskList = this.currentProject.taskManager.tasks;
         });
         }
     }

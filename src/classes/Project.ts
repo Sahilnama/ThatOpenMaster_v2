@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import { getNameInitials, genColorFn } from './GlobalFunctions';
-import{ITask, Task} from './TaskManager.ts'
+import{ITask, Task, TaskManager} from './TaskManager.ts'
 
 export type UserRole = 'Architect' | 'Engineer' | 'Developer';
 export type Status = 'Pending' | 'Active' | 'Completed';
@@ -26,13 +26,14 @@ export class Project implements IProject {
     id: string
     color: string;
     taskList: Task [];
-    // taskListUI:HTMLDivElement
+    taskManager: TaskManager
 
 
     constructor(data: IProject) {
         for(const key in data){
             this[key] = data[key];
         }
+        const tasksContainer = document.getElementById("to-do-container") as HTMLDivElement
         // this.name = data.name;
         // this.description = data.description;
         // this.status = data.status;
@@ -41,6 +42,7 @@ export class Project implements IProject {
         this.setUI();
         this.id = uuidv4();
         this.taskList = []
+        this.taskManager = new TaskManager(tasksContainer)
     }
     setUI(){
         if(this.ui){return}

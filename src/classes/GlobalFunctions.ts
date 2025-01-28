@@ -53,6 +53,7 @@ export const ShowPopUp = (type: PopType, message: string) => {
                 <div class="message" style="color: white;">${message}</div>`
                 break;
         }
+        HidePopUpAutoOrWhenClosed();
     }else{
         console.warn('Pop-up modal not found');
     }
@@ -60,12 +61,15 @@ export const ShowPopUp = (type: PopType, message: string) => {
     toggleModal('pop-up-modal', true);
 }
 
-export const HidePopUpWhenClosed = () => {
+export const HidePopUpAutoOrWhenClosed = () => {
     const closeBtn = document.querySelector('.close-btn');
     if(closeBtn){
         closeBtn.addEventListener('click', () => {
             toggleModal('pop-up-modal', false);
         });
+        setTimeout(() => {
+            toggleModal('pop-up-modal', false);
+          }, 2000);
     }else{  
         console.warn('Close button not found');
     }

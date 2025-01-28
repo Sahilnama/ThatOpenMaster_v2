@@ -1,6 +1,6 @@
 import { IProject, UserRole, Status } from './classes/Project';
 import { ProjectsManager } from './classes/ProjectsManager';
-import {toggleModal, ShowPopUp, HidePopUpWhenClosed, show, hide} from './classes/GlobalFunctions';
+import {toggleModal, ShowPopUp, show, hide} from './classes/GlobalFunctions';
 import { ITask, Task, TaskManager} from './classes/TaskManager';
 
 
@@ -11,8 +11,8 @@ const projectDetails = document.getElementById('project-details') as HTMLElement
 const projectsPage = document.getElementById('projects-page') as HTMLElement;
 const membersPage = document.getElementById('members-page') as HTMLElement;
 
-const taskList = document.getElementById("to-do-container") as HTMLDivElement
-const taskManager = new TaskManager(taskList)
+// const taskList = document.getElementById("to-do-container") as HTMLDivElement
+// const taskManager = new TaskManager(taskList)
 const editTaskForm = document.getElementById('edit-task-form')as HTMLElement
 
 //Handling new project creation----start-----
@@ -43,9 +43,7 @@ if (newProjectForm && newProjectForm instanceof HTMLFormElement) {
             newProjectForm.reset();
             toggleModal('new-project-modal', false);
         } catch (error) {
-            ShowPopUp('error', error.message);
-            HidePopUpWhenClosed();
-        }
+            ShowPopUp('error', error.message);}
     });
     
     newProjectForm.addEventListener('reset', () => {
@@ -88,7 +86,6 @@ if(editProjectForm && editProjectForm instanceof HTMLFormElement){
             projectsManager.updateProject(projectData)
         } catch (error) {
             ShowPopUp('error', error.message);
-            HidePopUpWhenClosed();
         }
     });
 
@@ -135,24 +132,22 @@ const addTaskForm = document.getElementById('add-task-form');
 
 if (addTaskForm && addTaskForm instanceof HTMLFormElement) {
     addTaskForm.addEventListener('submit', (e) => {
-        console.log("task form submit");
         e.preventDefault();
         const formData = new FormData(addTaskForm);
         const taskData: ITask = {
-            taskStatus: formData.get('taskStatus') as Status,
+            taskStatus: formData.get('taskStatus') == 'Status' ? 'Pending' : formData.get('taskStatus') as Status, // set default status to Pending if not selected
             taskDesc: formData.get('taskDescription') as string,
             taskDueDate: formData.get('taskDate') ? new Date(formData.get('taskDate') as string) : new Date(),
         };
         try {
-            console.log("new task");
-            const task = taskManager.newTask(taskData)
-            projectsManager.currentProject.taskList.push(task)
-            console.log(task);
+            const task = projectsManager.currentProject.taskManager.newTask(taskData)
+            projectsManager.currentProject.taskList = projectsManager.currentProject.taskManager.tasks
+            console.log("New task added:",task);
             addTaskForm.classList.add('hidden')
             addTaskForm.reset()
+            ShowPopUp('success', 'Task added successfully');
         } catch (error) {
             ShowPopUp('error', error.message);
-            HidePopUpWhenClosed();
         }
     });
 
@@ -163,7 +158,6 @@ if (addTaskForm && addTaskForm instanceof HTMLFormElement) {
 
 addProjectTaskBtn?.addEventListener('click', () => {
     hide(editTaskForm)
-    console.log("button click");
     if (addTaskForm && addTaskForm instanceof HTMLFormElement) {
         addTaskForm.classList.remove("hidden");
         
@@ -183,21 +177,18 @@ if (editTaskForm && editTaskForm instanceof HTMLFormElement){
             taskDueDate: formData.get('taskDate') ? new Date(formData.get('taskDate') as string) : new Date(),
         };
         try {
-            const currentTask = taskManager.currentTask;
-            const zz = currentTask.setEditTaskForm(taskData)
-            console.log(zz);
-            
+            const currentTask = projectsManager.currentProject.taskManager.currentTask;
+
             currentTask.taskStatus = taskData.taskStatus;
             currentTask.taskDesc = taskData.taskDesc;
             currentTask.taskDueDate = taskData.taskDueDate;
             currentTask.color = taskData.taskStatus
-            // console.log(currentTask);
             currentTask.updateTaskUI(taskData);
+            projectsManager.currentProject.taskList = projectsManager.currentProject.taskManager.tasks
             hide(editTaskForm);
             
         } catch (error) {
             ShowPopUp('error', error.message);
-            HidePopUpWhenClosed();
         }
     });
     
@@ -206,6 +197,5 @@ if (editTaskForm && editTaskForm instanceof HTMLFormElement){
     });
 
 }
-
 //Handling ToDo's of a project----End-----
     
