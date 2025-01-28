@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import { getNameInitials, genColorFn } from './GlobalFunctions';
+import{ITask, Task} from './TaskManager.ts'
 
 export type UserRole = 'Architect' | 'Engineer' | 'Developer';
 export type Status = 'Pending' | 'Active' | 'Completed';
@@ -24,6 +25,8 @@ export class Project implements IProject {
     progress: number = 0;
     id: string
     color: string;
+    taskList: Task [];
+    // taskListUI:HTMLDivElement
 
 
     constructor(data: IProject) {
@@ -37,6 +40,7 @@ export class Project implements IProject {
         // this.finishDate = data.finishDate;
         this.setUI();
         this.id = uuidv4();
+        this.taskList = []
     }
     setUI(){
         if(this.ui){return}

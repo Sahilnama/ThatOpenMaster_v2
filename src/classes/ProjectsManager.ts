@@ -16,6 +16,7 @@ export class ProjectsManager {
                     status: 'Active',
                 };
         this.newProject(defaultProjectData);
+
     }
 
     newProject(data: IProject) {
@@ -47,11 +48,14 @@ export class ProjectsManager {
             projectsPage.classList.add('hidden');
             this.setDetailsPage(project);
             this.currentProject = project
+            
         })
         this.ui.append(project.ui);
         this.projectsList.push(project);
+        // project.ui.click()
         return project;
     }
+
     updateProject(data: IProject) {
         const project =  new Project(data)
         const projectNames = this.projectsList.map((project) => {
@@ -83,6 +87,7 @@ export class ProjectsManager {
 //private method to set the details page
     private setDetailsPage(data: Project){
         const projectDetails = document.getElementById('project-details')
+        console.log(data);
         if(!projectDetails){
             console.warn('Project Details not found');
             return;
@@ -94,6 +99,7 @@ export class ProjectsManager {
         const role = projectDetails.querySelector("[data-project-info='role'")
         const cost = projectDetails.querySelector("[data-project-info='cost'")
         const finishDate = projectDetails.querySelector("[data-project-info='finishDate'")
+        const taskContainer = document.getElementById("to-do-container") as HTMLElement
         if(projectIcon && name && description && status && role && cost && finishDate){
                 projectIcon.textContent = getNameInitials(data.name);
                 projectIcon.style.backgroundColor = data.color;
@@ -109,7 +115,13 @@ export class ProjectsManager {
                 cost.textContent = `$${data.cost}`;
                 // finishDate.textContent = data.finishDate.toDateString(); //this gives the date in the format "Wed Aug 25 2021"
                 finishDate.textContent = data.finishDate.toISOString().split('T')[0]; //this gives the date in the format "2021-08-25"
+                // Clear the task container
+                taskContainer.innerHTML = '';
 
+                // Append each task's UI to the task container
+                data.taskList.forEach((task) => {
+                taskContainer.appendChild(task.taskUi);
+        });
         }
     }
 
@@ -171,15 +183,27 @@ export class ProjectsManager {
         this.projectsList = remainingProjects;
     }
 
-    exportToJSON() {}
+    exportToJSON(fileName: string = "projects") {
+        const json = JSON.stringify(this.projectsList, null, 2);
+        const blob = new Blob([json], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = fileName
+        a.click()
+        URL.revokeObjectURL(url);
+    }
 
-    importFromJSON() {}
+    importFromJSON() {
+
+    }
 
     calcTotalCost() {
         return this.projectsList.reduce((acc, project) => {
             return acc + project.cost;
         }, 0);
     }
+
 
 
 }

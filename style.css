@@ -48,6 +48,21 @@ li {
     padding: 15px 25px;
 }
 /* button styles */
+
+.blank-btn, .blue-btn, .void-btn{
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: var(--font-M);
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; 
+    background-color: transparent;
+    border: none;
+    color: white;
+}
+
 .blue-btn {
     background-color: var(--primary);
     border: none;
@@ -70,15 +85,8 @@ li {
     border: none;
 }
 
-.blank-btn, .blue-btn{
-    padding: 8px 15px;
-    border-radius: 20px;
-    font-size: var(--font-M);
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden; 
+.void-btn{
+    padding: 0;
 }
 
 .close-btn{
@@ -294,6 +302,19 @@ input:focus, textarea:focus, select:focus{
     align-items: center;
 }
 
+/* task form styles */
+.task-form{
+margin: 10px;
+display: flex;
+gap: 10px;
+justify-content: space-around;
+border: solid 1px white;
+}
+
+.task-form  .to-do-desc{
+    margin: 0 0 10px 0;
+}
+
 /* To do card styles */
 #to-do-header{
     display: flex;
@@ -304,8 +325,15 @@ input:focus, textarea:focus, select:focus{
 
 #to-do-search, .to-do-item, .to-do-desc{
     display: flex;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     align-items: center;
+}
+
+.to-do-desc{
+    max-width: 250px;
+    min-width: 150px;
+    overflow: hidden;
+    margin-left: 10px;
 }
 
 #to-do-search p{
@@ -316,8 +344,20 @@ input:focus, textarea:focus, select:focus{
 }
 
 .to-do-item{
-    padding: 5px 15px;
+    background-color: var(--background-200);
+    margin:0.5em;
+    padding:  0.5rem 0.5rem  0.5rem   0 ;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    justify-content: space-between;
+    min-height: 50px;
+    border: solid 2px white;
+}
 
+.to-do-item:hover{
+    .action-btn{
+        display: block;
+    }
 }
 
 /* members page styles */
@@ -442,8 +482,9 @@ input:focus, textarea:focus, select:focus{
 }
 
 
-
-
+#task-due-date{
+    margin: 10px;
+}
 
 
 .hidden {
