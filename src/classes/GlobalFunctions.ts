@@ -69,7 +69,7 @@ export const HidePopUpAutoOrWhenClosed = () => {
         });
         setTimeout(() => {
             toggleModal('pop-up-modal', false);
-          }, 2000);
+          }, 1000);
     }else{  
         console.warn('Close button not found');
     }

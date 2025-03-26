@@ -144,7 +144,7 @@
                     </div>
                     <form id="add-task-form" class="hidden task-form">
                         <div>
-                            <textarea class="to-do-desc" name="taskDescription" id="" cols="25" rows="3" placeholder="Task description"></textarea>
+                            <textarea class="to-do-desc" name="taskDescription" id="" cols="35" rows="3" placeholder="Task description"></textarea>
                             <input name="taskDate" type="date" class="task-due-date">
                             <select name="taskStatus" class="task-status" >
                               <option class="hidden">Status</option>
@@ -152,12 +152,14 @@
                               <option>Active</option>
                               <option>Completed</option>
                             </select>
-                            <button id="add-task-btn" class="void-btn" type="submit">
-                              <span class="material-symbols-outlined">check</span>
-                            </button>
-                            <button id="cancel-task-btn" class="void-btn" type="reset">
-                                <span class="material-symbols-outlined">close</span>
-                            </button>
+                            <div class="action-btn" style="display: flex; column-gap: 10px; margin-top: 10px;">
+                                <button id="add-task-btn" class="void-btn" type="submit">
+                                  <span class="material-symbols-outlined">check</span>
+                                </button>
+                                <button id="cancel-task-btn" class="void-btn" type="reset">
+                                    <span class="material-symbols-outlined">close</span>
+                                </button>
+                            </div>
                         </div>
                   </form>
                     <form id="edit-task-form" class="hidden task-form">
@@ -170,12 +172,14 @@
                               <option>Active</option>
                               <option>Completed</option>
                             </select>
-                            <button id="update-task-btn" class=" void-btn" type="submit">
-                              <span class="material-symbols-outlined">check</span>
-                            </button>
-                            <button id="cancel-task-btn" class=" void-btn" type="reset">
-                                <span class="material-symbols-outlined">close</span>
-                            </button>
+                            <div class="action-btn" style="display: flex; column-gap: 10px; margin-top: 10px;">
+                                <button id="add-task-btn" class="void-btn" type="submit">
+                                  <span class="material-symbols-outlined">check</span>
+                                </button>
+                                <button id="cancel-task-btn" class="void-btn" type="reset">
+                                    <span class="material-symbols-outlined">close</span>
+                                </button>
+                            </div>
                         </div>
                   </form>
                     <div id="to-do-container">
@@ -201,7 +205,7 @@
                   </div>  
                     </div>
                 </div>
-                <div id="viewer-container" class="dashboard-card"></div>
+                <div id="viewer-container" class="dashboard-card" style="min-width: 0;"></div>
                 
         </div>
         </div>

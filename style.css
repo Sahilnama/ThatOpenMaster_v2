@@ -246,8 +246,8 @@ input:focus, textarea:focus, select:focus{
 
 #project-details > .main-page-content{
     display: grid;
-    padding: 20px;
-    grid-template-columns: 475px 1fr;
+    padding: 10px;
+    grid-template-columns: 400px 1fr;
     height: 100%;
 }
 

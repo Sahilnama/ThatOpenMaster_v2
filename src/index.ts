@@ -1,7 +1,13 @@
+import * as THREE from 'three';
+import {GUI} from 'three/examples/jsm/libs/lil-gui.module.min.js'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader.js';
 import { IProject, UserRole, Status } from './classes/Project';
 import { ProjectsManager } from './classes/ProjectsManager';
-import {toggleModal, ShowPopUp, show, hide} from './classes/GlobalFunctions';
-import { ITask, Task, TaskManager} from './classes/TaskManager';
+import {toggleModal, ShowPopUp, hide} from './classes/GlobalFunctions';
+import { ITask} from './classes/TaskManager';
 
 
 const projectsList = document.getElementById('project-list') as HTMLElement;
@@ -56,12 +62,19 @@ if (newProjectForm && newProjectForm instanceof HTMLFormElement) {
 //Handling new project creation----End-----
 
 //Handling project import and export----Start-----
-const importProjectBtn = document.getElementById('import-project-btn');
-const exportProjectBtn = document.getElementById('export-projects-btn');
 
+const exportProjectBtn = document.getElementById('export-projects-btn');
 if(exportProjectBtn){
     exportProjectBtn.addEventListener('click', () => {
         projectsManager.exportToJSON();
+    });
+}
+
+const importProjectBtn = document.getElementById('import-projects-btn');
+if(importProjectBtn){
+    importProjectBtn.addEventListener('click', () => {
+        console.log("importing projects...");
+        projectsManager.importFromJSON();
     });
 }
 
@@ -198,4 +211,93 @@ if (editTaskForm && editTaskForm instanceof HTMLFormElement){
 
 }
 //Handling ToDo's of a project----End-----
+
+//ThreeJS viewer----Start-----
+const scene = new THREE.Scene();
+
+const viewerContainer = document.getElementById('viewer-container') as HTMLElement
+const camera = new THREE.PerspectiveCamera(75)
+camera.position.z = 5
+const renderer = new THREE.WebGLRenderer({alpha: true, antialias: true})
+
+viewerContainer.append(renderer.domElement)
+
+function resizeViewer() {
+    const containerDimensions = viewerContainer.getBoundingClientRect()
+    const aspectRatio = containerDimensions.width / containerDimensions.height
+    renderer.setSize(containerDimensions.width, containerDimensions.height)
+    camera.aspect = aspectRatio
+    camera.updateProjectionMatrix()
+}
+resizeViewer()
+window.addEventListener('resize', resizeViewer)
+
+const boxGeometry = new THREE.BoxGeometry()
+const boxMaterial = new THREE.MeshStandardMaterial()
+
+const cube = new THREE.Mesh(boxGeometry, boxMaterial)
+
+
+const directionalLight = new THREE.DirectionalLight()
+const ambientLight = new THREE.AmbientLight()
+ambientLight.intensity = 0.5
+
+scene.add(directionalLight, ambientLight)
+const controls = new OrbitControls(camera, renderer.domElement)
+
+function renderScene(){
+    renderer.render(scene, camera)
+    requestAnimationFrame(renderScene)
+}
+
+renderScene()
+
+//ThreeJS Helpers----Start-----
+const axes = new THREE.AxesHelper()
+const grid = new THREE.GridHelper(10, 10)
+scene.add(axes, grid)
+
+const gui = new GUI()
+
+const cubeControls = gui.addFolder('Cube')
+
+cubeControls.add(cube.position, 'x', -5, 5, 0.5)
+cubeControls.add(cube.position, 'y', -5, 5, 0.5)
+cubeControls.add(cube.position, 'z', -5, 5, 0.5)
+cubeControls.add(cube, 'visible')
+cubeControls.addColor(cube.material, 'color')
+
+const lightControls = gui.addFolder('Light')
+lightControls.add(directionalLight.position, 'x', -5, 5, 0.5)
+lightControls.add(directionalLight.position, 'y', -5, 5, 0.5)
+lightControls.add(directionalLight.position, 'z', -5, 5, 0.5)
+lightControls.add(directionalLight, 'intensity', -5, 5, 0.5)
+lightControls.add(directionalLight, 'visible')
+lightControls.addColor(directionalLight, 'color')
+//ThreeJS Helpers----End-----
+
+//ThreeJS Loaders----Start-----
+const objLoader = new OBJLoader()
+const mtlLoader = new MTLLoader()
+const gltfLoader = new GLTFLoader()
+
+
+mtlLoader.load("../assets/Gear/Gear1.mtl", (materials) =>{
+    materials.preload()
+    objLoader.setMaterials(materials)
+    objLoader.load("../assets/Gear/Gear1.obj", (mesh) =>{
+        // scene.add(mesh)
+    })    
+})
+
+gltfLoader.load("../assets/Duck/Duck.gltf", (gltf) =>{
+    scene.add(gltf.scene)})
+
+//ThreeJS Loaders----End-----
+
+
+
+
+//ThreeJS viewer----End-----
+
     

@@ -1,4 +1,4 @@
-import { genColorFn, getNameInitials, toggleModal } from './GlobalFunctions';
+import { genColorFn, getNameInitials, show, toggleModal } from './GlobalFunctions';
 import { IProject, Project } from './Project';
 
 export class ProjectsManager {
@@ -15,7 +15,8 @@ export class ProjectsManager {
                     userRole: 'Engineer',
                     status: 'Active',
                 };
-        this.newProject(defaultProjectData);
+        const sampleProject = this.newProject(defaultProjectData);
+        sampleProject.ui.click();
 
     }
 
@@ -195,7 +196,29 @@ export class ProjectsManager {
     }
 
     importFromJSON() {
+        const input = document.createElement('input')
+        input.type = 'file'
+        input.accept = 'application/json'
+        const reader = new FileReader()
+        reader.addEventListener('load', ()=>{
+            const json = reader.result
+            if(!json){return}
+            const projects: IProject[] = JSON.parse(json as string)
+            for(const project of projects){
+                try{
+                    this.newProject(project)
+                }catch(error){
+                    console.error(error)
+                }
+            }
+        })
 
+        input.addEventListener('change', ()=>{
+            const filesList = input.files
+            if(!filesList){return}
+            reader.readAsText(filesList[0])
+        })
+        input.click()
     }
 
     calcTotalCost() {
