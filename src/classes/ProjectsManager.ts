@@ -3,11 +3,10 @@ import { IProject, Project } from './Project';
 
 export class ProjectsManager {
     projectsList: Project[] = [];
-    ui: HTMLElement;
     currentProject: Project;
 
-    constructor(container: HTMLElement) {
-        this.ui = container;
+    constructor() {
+       
         const defaultProjectData: IProject = {
                     name: 'Sample Project',
                     description: 'The new project will replace this Sample project.',
@@ -51,7 +50,7 @@ export class ProjectsManager {
             this.currentProject = project
             
         })
-        this.ui.append(project.ui);
+        
         this.projectsList.push(project);
         // project.ui.click()
         return project;

@@ -11,67 +11,10 @@
 </head>
 
 <body>
-    <aside id="sidebar">
-        <img id="company-logo" src="./assets/company-logo.svg" alt="logo">
-        <ul id="nav-buttons">
-            <li id="projects-page-btn" class="blue-btn"><span class="material-symbols-rounded">apartment</span>&nbsp; Projects</li>
-            <li id="members-page-btn" class="blue-btn"><span class="material-symbols-rounded">group</span>&nbsp; Members</li>
-        </ul>
-    </aside>
+    <div id="app"></div>
     <main id="content">
         <dialog id="pop-up-modal">
         </dialog>
-        <div class="page" id="projects-page">
-            <dialog id="new-project-modal">
-                <form id="new-project-form">
-                    <h2>New Project</h2>
-                    <div class="input-list">
-                        <div class="form-field-container">
-                            <label><span class="material-symbols-rounded">apartment</span> &nbsp; Name</label> 
-                            <input name="name" type="text" placeholder="Project name">
-                            <p>Tip: Give a short name</p>
-                        </div>
-                        <div class="form-field-container">
-                            <label><span class="material-symbols-outlined">subject</span> &nbsp; Description</label>
-                            <textarea name="description" cols="30" rows="5" placeholder="Project description"></textarea>
-                        </div>
-                        <div class="form-field-container">
-                            <label for=""><span class="material-symbols-outlined">account_circle</span>&nbsp; Role</label>
-                            <select name="userRole">
-                                <option>Architect</option>
-                                <option>Engineer</option>
-                                <option>Developer</option>
-                            </select>
-                        </div>
-                        <div class="form-field-container">
-                            <label for=""><span class="material-symbols-outlined">work_history</span>&nbsp; Status</label>
-                            <select name="status">
-                                <option>Active</option>
-                                <option>Inactive</option>
-                            </select>
-                        </div>
-                        <div class="form-field-container">
-                            <label for=""><span class="material-symbols-outlined">calendar_month</span>&nbsp; Finish Date</label>
-                            <input name="finishDate" type="date">
-                        </div>
-                    </div>
-                    <div id="form-buttons">
-                        <button type="reset" class="blank-btn">Cancel</button>
-                        <button type="submit" class="blank-btn">Create</button>
-                    </div>
-                </form>
-            </dialog>
-            <header class="page-header">
-                <h2>Projects</h2>
-                <div style="display: flex; align-items: center; column-gap: 15px;">
-                    <span style="cursor: pointer;" id="import-projects-btn" class="material-symbols-outlined">file_upload</span>
-                    <span style="cursor: pointer;" id="export-projects-btn" class="material-symbols-outlined">file_download</span>
-                    <button id="new-project-btn" class="blue-btn"><span class="material-symbols-rounded">add</span>&nbsp; New Project</button>
-                </div>
-            </header>
-            <div id="project-list">
-                </div>
-        </div>
         <div class="page  hidden" id="project-details">
             <dialog id="edit-project-modal">
                 <form id="edit-project-form">
@@ -340,7 +283,7 @@
         </div>
         </div>
     </main>
-    <script type="module" src="./src/index.ts"></script>
+    <script type="module" src="./src/index.tsx"></script>
 </body>
 
 </html>

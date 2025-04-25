@@ -1,3 +1,6 @@
+import * as React from 'react';
+import * as ReactDOM from 'react-dom/client';
+import { Sidebar} from './react-components/Sidebar';
 import * as THREE from 'three';
 import {GUI} from 'three/examples/jsm/libs/lil-gui.module.min.js'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
@@ -8,10 +11,19 @@ import { IProject, UserRole, Status } from './classes/Project';
 import { ProjectsManager } from './classes/ProjectsManager';
 import {toggleModal, ShowPopUp, hide} from './classes/GlobalFunctions';
 import { ITask} from './classes/TaskManager';
+import { ProjectsPage } from './react-components/ProjectsPage';
 
+const rootElement = document.getElementById('app') as HTMLElement;
+const appRoot = ReactDOM.createRoot(rootElement)
+appRoot.render(
+    <>
+<Sidebar />
+<ProjectsPage/>
+    </>
+)
 
 const projectsList = document.getElementById('project-list') as HTMLElement;
-const projectsManager = new ProjectsManager(projectsList);
+const projectsManager = new ProjectsManager();
 
 const projectDetails = document.getElementById('project-details') as HTMLElement;
 const projectsPage = document.getElementById('projects-page') as HTMLElement;
@@ -21,68 +33,22 @@ const membersPage = document.getElementById('members-page') as HTMLElement;
 // const taskManager = new TaskManager(taskList)
 const editTaskForm = document.getElementById('edit-task-form')as HTMLElement
 
-//Handling new project creation----start-----
 
-const newProjectBtn = document.getElementById('new-project-btn');
-if (newProjectBtn) {
-    newProjectBtn.addEventListener('click', () => {
-        toggleModal('new-project-modal', true);
-    });
-} else {
-    console.warn('New Project Button not found');
-}
+//Handling new project creation----End-----
 
-const newProjectForm = document.getElementById('new-project-form');
-if (newProjectForm && newProjectForm instanceof HTMLFormElement) {
-    newProjectForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const formData = new FormData(newProjectForm);
-        const projectData: IProject = {
-            name: formData.get('name') as string,
-            description: formData.get('description') as string,
-            finishDate: formData.get('finishDate') ? new Date(formData.get('finishDate') as string) : new Date(), // create a new date object from the form input as string
-            userRole: formData.get('userRole') as UserRole,
-            status: formData.get('status') as Status,
-        };
-        try {
-            projectsManager.newProject(projectData);
-            newProjectForm.reset();
-            toggleModal('new-project-modal', false);
-        } catch (error) {
-            ShowPopUp('error', error.message);}
-    });
+    //this code is converted to react
     
-    newProjectForm.addEventListener('reset', () => {
-        newProjectForm.reset();
-        toggleModal('new-project-modal', false);
-    });
-} else {
-    console.warn('New Project Form not found');
-}
 //Handling new project creation----End-----
 
 //Handling project import and export----Start-----
 
-const exportProjectBtn = document.getElementById('export-projects-btn');
-if(exportProjectBtn){
-    exportProjectBtn.addEventListener('click', () => {
-        projectsManager.exportToJSON();
-    });
-}
-
-const importProjectBtn = document.getElementById('import-projects-btn');
-if(importProjectBtn){
-    importProjectBtn.addEventListener('click', () => {
-        console.log("importing projects...");
-        projectsManager.importFromJSON();
-    });
-}
-
+    //this code is converted to react
 
 //Handling project import and export----End-----
 
 //Handling project modification----Start-----
 const editProjectForm = document.getElementById('edit-project-form');
+const editProjectModal = document.getElementById('edit-project-modal') as HTMLDialogElement;
 if(editProjectForm && editProjectForm instanceof HTMLFormElement){
     editProjectForm.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -95,7 +61,7 @@ if(editProjectForm && editProjectForm instanceof HTMLFormElement){
             status: formData.get('status') as Status,
         };
         try {
-            toggleModal('edit-project-modal', false)
+            toggleModal(editProjectModal, false)
             projectsManager.updateProject(projectData)
         } catch (error) {
             ShowPopUp('error', error.message);
@@ -104,7 +70,7 @@ if(editProjectForm && editProjectForm instanceof HTMLFormElement){
 
     editProjectForm.addEventListener('reset', () => {
         editProjectForm.reset();
-        toggleModal('edit-project-modal', false);
+        toggleModal(editProjectModal, false);
     });
 }
 
@@ -115,7 +81,7 @@ editProjectBtn?.addEventListener('click', () => {
         console.warn('Edit Project Form not found');
         return;
     }
-    toggleModal('edit-project-modal', true);
+    toggleModal(editProjectModal, true);
     projectsManager.setupEditForm();
 })
 
