@@ -2,9 +2,20 @@ import * as React from 'react';
 import{ toggleModal, ShowPopUp } from '../classes/GlobalFunctions'
 import { IProject, Project, Status, UserRole } from '../classes/Project';
 import { ProjectsManager } from '../classes/ProjectsManager';
+import { ProjectCard } from './ProjectCard';
 
 export function ProjectsPage() {
-   const projectsManager = new ProjectsManager()
+    const [projectsManager] = React.useState(new ProjectsManager())
+    const [projects, setProjects] = React.useState<Project[]>(projectsManager.projectsList)  
+    projectsManager.onProjectCreated = () => {setProjects([...projectsManager.projectsList])}
+    projectsManager.onProjectDeleted = () => {setProjects([...projectsManager.projectsList])}
+
+    const projectCards = projects.map((project) => {
+        return <ProjectCard project={project} key = {project.id}/>
+    })
+
+    React.useEffect(() => {console.log("Project list updated:", projects);}, [projects])
+
   const onNewProjectClick = () => {
     //Handling new project creation----start-----
     const newProjectModal = document.getElementById('new-project-modal');
@@ -30,7 +41,7 @@ export function ProjectsPage() {
             };
             try {
                 const project = projectsManager.newProject(projectData);
-                console.log(project);
+                console.log("Project created with :", project);    
                 newProjectForm.reset();
                 toggleModal(newProjectModal, false);
             } catch (error) {
@@ -145,7 +156,7 @@ export function ProjectsPage() {
                     </button>
                 </div>
             </header>
-            <div id="project-list"></div>
+            <div id="project-list">{projectCards}</div>
         </div>
     );
 }

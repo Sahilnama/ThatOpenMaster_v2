@@ -20,7 +20,7 @@ export class Project implements IProject {
     finishDate: Date;
 
     //class specific properties
-    ui: HTMLDivElement;
+    icon: string;
     cost: number = 0;
     progress: number = 0;
     id: string
@@ -39,48 +39,23 @@ export class Project implements IProject {
         // this.status = data.status;
         // this.userRole = data.userRole;
         // this.finishDate = data.finishDate;
-        this.setUI();
+        this.icon = getNameInitials(this.name);
         this.id = uuidv4();
         this.taskList = []
         this.taskManager = new TaskManager(tasksContainer)
     }
-    setUI(){
+    /*setUI(){
         if(this.ui){return}
         this.color = genColorFn(); 
         this.ui = document.createElement('div');
         this.ui.className = 'project-card';
-        this.setCardUI()
-                  
-            }
+        this.setCardUI() 
+        
+    } this code is converted to react 
 
     setCardUI(){
-        this.ui.innerHTML = `
-                    <div class="card-header">
-                        <p style = "background-color:${this.color}" class="project-icon">${getNameInitials(this.name)}</p>
-                        <div>
-                            <h5 class="card-header-name">${this.name}</h5>
-                            <p class="card-header-desc">${this.description}</p>
-                        </div>
-                    </div>
-                    <div class="card-content">
-                        <div class="card-property">
-                            <p style="color: #969696;">Status</p>
-                            <p>${this.status}</p>
-                        </div>
-                        <div class="card-property">
-                            <p style="color: #969696;">Role</p>
-                            <p>${this.userRole}</p>
-                        </div>
-                        <div class="card-property">
-                            <p style="color: #969696;">Cost</p>
-                            <p>$${this.cost}</p>
-                        </div>
-                        <div class="card-property">
-                            <p style="color: #969696;">Progress</p>
-                            <p>${this.progress * 100}%</p>
-                        </div>
-                    </div>`;
-    }
+                    
+    }*/
 
     
 }

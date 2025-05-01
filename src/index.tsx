@@ -12,7 +12,7 @@ import { ProjectsManager } from './classes/ProjectsManager';
 import {toggleModal, ShowPopUp, hide} from './classes/GlobalFunctions';
 import { ITask} from './classes/TaskManager';
 import { ProjectsPage } from './react-components/ProjectsPage';
-
+import '../style.css'
 const rootElement = document.getElementById('app') as HTMLElement;
 const appRoot = ReactDOM.createRoot(rootElement)
 appRoot.render(
@@ -240,6 +240,7 @@ lightControls.add(directionalLight.position, 'z', -5, 5, 0.5)
 lightControls.add(directionalLight, 'intensity', -5, 5, 0.5)
 lightControls.add(directionalLight, 'visible')
 lightControls.addColor(directionalLight, 'color')
+gui.hide() //remove this line when controls are required
 //ThreeJS Helpers----End-----
 
 //ThreeJS Loaders----Start-----

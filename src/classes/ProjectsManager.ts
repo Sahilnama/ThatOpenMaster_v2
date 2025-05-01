@@ -4,7 +4,8 @@ import { IProject, Project } from './Project';
 export class ProjectsManager {
     projectsList: Project[] = [];
     currentProject: Project;
-
+    onProjectCreated = () => {}
+    onProjectDeleted = () => {}
     constructor() {
        
         const defaultProjectData: IProject = {
@@ -15,7 +16,6 @@ export class ProjectsManager {
                     status: 'Active',
                 };
         const sampleProject = this.newProject(defaultProjectData);
-        sampleProject.ui.click();
 
     }
 
@@ -36,22 +36,9 @@ export class ProjectsManager {
         }
 
         const project = new Project(data);
-        project.ui.addEventListener('click', () => {
-            const projectDetails = document.getElementById('project-details') as HTMLElement;
-            const projectsPage = document.getElementById('projects-page') as HTMLElement;
-
-            if(!projectDetails || !projectsPage){
-                console.warn('Project Details or Projects Page not found');
-                return;
-            }
-            projectDetails.classList.remove('hidden');
-            projectsPage.classList.add('hidden');
-            this.setDetailsPage(project);
-            this.currentProject = project
-            
-        })
         
         this.projectsList.push(project);
+        this.onProjectCreated()
         // project.ui.click()
         return project;
     }
@@ -78,7 +65,6 @@ export class ProjectsManager {
         this.currentProject.status = data.status;
         this.currentProject.finishDate = data.finishDate;
         this.currentProject.userRole = data.userRole;
-        this.currentProject.setCardUI();
 
         if(project){
             this.setDetailsPage(project)
@@ -176,11 +162,11 @@ export class ProjectsManager {
             return;
         }
 
-        project.ui.remove();
         const remainingProjects = this.projectsList.filter((project) => {
             return project.id !== id;
         });
         this.projectsList = remainingProjects;
+        this.onProjectDeleted()
     }
 
     exportToJSON(fileName: string = "projects") {
