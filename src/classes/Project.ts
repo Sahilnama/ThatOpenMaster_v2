@@ -25,7 +25,7 @@ export class Project implements IProject {
     progress: number = 0;
     id: string
     color: string;
-    taskList: Task [];
+    // taskList: Task [];
     taskManager: TaskManager
 
 
@@ -33,16 +33,15 @@ export class Project implements IProject {
         for(const key in data){
             this[key] = data[key];
         }
-        const tasksContainer = document.getElementById("to-do-container") as HTMLDivElement
         // this.name = data.name;
         // this.description = data.description;
         // this.status = data.status;
         // this.userRole = data.userRole;
-        // this.finishDate = data.finishDate;
+        this.finishDate = new Date(data.finishDate)
         this.icon = getNameInitials(this.name);
         this.id = uuidv4();
-        this.taskList = []
-        this.taskManager = new TaskManager(tasksContainer)
+        // this.taskList = []
+        this.taskManager = new TaskManager()
     }
     /*setUI(){
         if(this.ui){return}

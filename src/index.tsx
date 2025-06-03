@@ -12,18 +12,25 @@ import { ProjectsManager } from './classes/ProjectsManager';
 import {toggleModal, ShowPopUp, hide} from './classes/GlobalFunctions';
 import { ITask} from './classes/TaskManager';
 import { ProjectsPage } from './react-components/ProjectsPage';
-import '../style.css'
+import * as Router from 'react-router-dom';
+import { ProjectDetailsPage } from './react-components/ProjectDetailsPage';
+
+const projectsManager = new ProjectsManager();
 const rootElement = document.getElementById('app') as HTMLElement;
 const appRoot = ReactDOM.createRoot(rootElement)
 appRoot.render(
     <>
-<Sidebar />
-<ProjectsPage/>
+        <Router.BrowserRouter>
+            <Sidebar />
+            <Router.Routes>
+                <Router.Route path="/" element={<ProjectsPage projectsManager={projectsManager}/>}/>
+                <Router.Route path="/project/:id" element={<ProjectDetailsPage projectsManager={projectsManager}/>}/>
+            </Router.Routes>
+        </Router.BrowserRouter>
     </>
-)
+);
 
 const projectsList = document.getElementById('project-list') as HTMLElement;
-const projectsManager = new ProjectsManager();
 
 const projectDetails = document.getElementById('project-details') as HTMLElement;
 const projectsPage = document.getElementById('projects-page') as HTMLElement;
@@ -120,7 +127,6 @@ if (addTaskForm && addTaskForm instanceof HTMLFormElement) {
         };
         try {
             const task = projectsManager.currentProject.taskManager.newTask(taskData)
-            projectsManager.currentProject.taskList = projectsManager.currentProject.taskManager.tasks
             console.log("New task added:",task);
             addTaskForm.classList.add('hidden')
             addTaskForm.reset()
@@ -146,40 +152,40 @@ addProjectTaskBtn?.addEventListener('click', () => {
 //Handling Task modification------Start-----
 // const updateTaskBtn = ""
 
-if (editTaskForm && editTaskForm instanceof HTMLFormElement){
-    editTaskForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const formData = new FormData(editTaskForm);
-        const taskData: ITask = {
-            taskStatus: formData.get('taskStatus') as Status,
-            taskDesc: formData.get('taskDescription') as string,
-            taskDueDate: formData.get('taskDate') ? new Date(formData.get('taskDate') as string) : new Date(),
-        };
-        try {
-            const currentTask = projectsManager.currentProject.taskManager.currentTask;
+// if (editTaskForm && editTaskForm instanceof HTMLFormElement){
+//     editTaskForm.addEventListener('submit', (e) => {
+//         e.preventDefault();
+//         const formData = new FormData(editTaskForm);
+//         const taskData: ITask = {
+//             taskStatus: formData.get('taskStatus') as Status,
+//             taskDesc: formData.get('taskDescription') as string,
+//             taskDueDate: formData.get('taskDate') ? new Date(formData.get('taskDate') as string) : new Date(),
+//         };
+//         try {
+//             const currentTask = projectsManager.currentProject.taskManager.currentTask;
 
-            currentTask.taskStatus = taskData.taskStatus;
-            currentTask.taskDesc = taskData.taskDesc;
-            currentTask.taskDueDate = taskData.taskDueDate;
-            currentTask.color = taskData.taskStatus
-            currentTask.updateTaskUI(taskData);
-            projectsManager.currentProject.taskList = projectsManager.currentProject.taskManager.tasks
-            hide(editTaskForm);
+//             currentTask.taskStatus = taskData.taskStatus;
+//             currentTask.taskDesc = taskData.taskDesc;
+//             currentTask.taskDueDate = taskData.taskDueDate;
+//             currentTask.color = taskData.taskStatus
+//             currentTask.updateTaskUI(taskData);
+//             projectsManager.currentProject.taskList = projectsManager.currentProject.taskManager.tasks
+//             hide(editTaskForm);
             
-        } catch (error) {
-            ShowPopUp('error', error.message);
-        }
-    });
+//         } catch (error) {
+//             ShowPopUp('error', error.message);
+//         }
+//     });
     
-    editTaskForm.addEventListener('reset', () => {
-        hide(editTaskForm)
-    });
+//     editTaskForm.addEventListener('reset', () => {
+//         hide(editTaskForm)
+//     });
 
-}
+// }
 //Handling ToDo's of a project----End-----
 
 //ThreeJS viewer----Start-----
-const scene = new THREE.Scene();
+/*const scene = new THREE.Scene();
 
 const viewerContainer = document.getElementById('viewer-container') as HTMLElement
 const camera = new THREE.PerspectiveCamera(75)
@@ -219,7 +225,7 @@ function renderScene(){
 renderScene()
 
 //ThreeJS Helpers----Start-----
-const axes = new THREE.AxesHelper()
+(const axes = new THREE.AxesHelper()
 const grid = new THREE.GridHelper(10, 10)
 scene.add(axes, grid)
 
@@ -267,4 +273,4 @@ gltfLoader.load("../assets/Duck/Duck.gltf", (gltf) =>{
 
 //ThreeJS viewer----End-----
 
-    
+ */   

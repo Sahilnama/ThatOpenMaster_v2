@@ -3,16 +3,26 @@ import{ toggleModal, ShowPopUp } from '../classes/GlobalFunctions'
 import { IProject, Project, Status, UserRole } from '../classes/Project';
 import { ProjectsManager } from '../classes/ProjectsManager';
 import { ProjectCard } from './ProjectCard';
+import { SearchBox } from './SearchBox';
+import * as Router from 'react-router-dom';
+import { div } from 'three/examples/jsm/nodes/Nodes.js';
 
-export function ProjectsPage() {
-    const [projectsManager] = React.useState(new ProjectsManager())
-    const [projects, setProjects] = React.useState<Project[]>(projectsManager.projectsList)  
-    projectsManager.onProjectCreated = () => {setProjects([...projectsManager.projectsList])}
-    projectsManager.onProjectDeleted = () => {setProjects([...projectsManager.projectsList])}
+interface Props{
+    projectsManager: ProjectsManager
+}
+
+export function ProjectsPage(props: Props) {
+    
+    const [projects, setProjects] = React.useState<Project[]>(props.projectsManager.projectsList)  
+    props.projectsManager.onProjectCreated = () => {setProjects([...props.projectsManager.projectsList])}
+    props.projectsManager.onProjectDeleted = () => {setProjects([...props.projectsManager.projectsList])}
 
     const projectCards = projects.map((project) => {
-        return <ProjectCard project={project} key = {project.id}/>
-    })
+        return  (
+        <Router.Link to={`/project/${project.id}`} key = {project.id}>
+                <ProjectCard project={project} />
+        </Router.Link>) 
+        })
 
     React.useEffect(() => {console.log("Project list updated:", projects);}, [projects])
 
@@ -40,7 +50,7 @@ export function ProjectsPage() {
                 status: formData.get('status') as Status,
             };
             try {
-                const project = projectsManager.newProject(projectData);
+                const project = props.projectsManager.newProject(projectData);
                 console.log("Project created with :", project);    
                 newProjectForm.reset();
                 toggleModal(newProjectModal, false);
@@ -48,11 +58,17 @@ export function ProjectsPage() {
                 ShowPopUp('error', error.message);}
   }
    const onExportProjectsClick = () => {
-    projectsManager.exportToJSON()
+    props.projectsManager.exportToJSON()
    }
    const onImportProjectsClick = () => {
-    projectsManager.importFromJSON()
+    props.projectsManager.importFromJSON()
    }
+
+   const onProjectSearch = (value: string) =>{
+    
+    setProjects(props.projectsManager.filterProjects(value));
+   }
+
     return (
         <div
             className="page"
@@ -147,6 +163,7 @@ export function ProjectsPage() {
             </dialog>
             <header className="page-header">
                 <h2>Projects</h2>
+                <SearchBox onChange={(value) => onProjectSearch(value)} placeholder='Search project by name or description'/>
                 <div style={{display: 'flex',alignItems: 'center',columnGap: 15,}}>
                     <span onClick={onExportProjectsClick} style={{ cursor: 'pointer' }} id="import-projects-btn" className="material-symbols-outlined">file_upload</span>
                     <span onClick={onImportProjectsClick} style={{ cursor: 'pointer' }}id="export-projects-btn" className="material-symbols-outlined">file_download</span>
@@ -156,7 +173,8 @@ export function ProjectsPage() {
                     </button>
                 </div>
             </header>
-            <div id="project-list">{projectCards}</div>
+            {projects.length>0 ? <div id="project-list">{projectCards}</div> : <div className="empty-list">No projects found</div>}
+            
         </div>
     );
 }

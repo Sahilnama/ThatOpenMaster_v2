@@ -66,50 +66,17 @@ export class ProjectsManager {
         this.currentProject.finishDate = data.finishDate;
         this.currentProject.userRole = data.userRole;
 
-        if(project){
-            this.setDetailsPage(project)
-        }
+        
+    }
+
+    filterProjects(value: string) {
+        const filteredProjects = this.projectsList.filter((project) =>{
+        return project.name.includes(value) || project.description.includes(value)
+    })
+        return filteredProjects;
     }
 //private method to set the details page
-    private setDetailsPage(data: Project){
-        const projectDetails = document.getElementById('project-details')
-        if(!projectDetails){
-            console.warn('Project Details not found');
-            return;
-        }
-        const projectIcon = projectDetails.querySelector("[data-project-info='project-icon'") as HTMLElement;
-        const name = projectDetails.querySelectorAll("[data-project-info='name'")
-        const description = projectDetails.querySelectorAll("[data-project-info='description'")
-        const status = projectDetails.querySelector("[data-project-info='status'")
-        const role = projectDetails.querySelector("[data-project-info='role'")
-        const cost = projectDetails.querySelector("[data-project-info='cost'")
-        const finishDate = projectDetails.querySelector("[data-project-info='finishDate'")
-        const taskContainer = document.getElementById("to-do-container") as HTMLElement
-        if(projectIcon && name && description && status && role && cost && finishDate){
-                projectIcon.textContent = getNameInitials(data.name);
-                projectIcon.style.backgroundColor = data.color;
-                name.forEach((element) => {
-                    element.textContent = data.name;
-                })
-                description.forEach((element) => {
-                    element.textContent = data.description;
-                })  
-
-                status.textContent = data.status;
-                role.textContent = data.userRole;
-                cost.textContent = `$${data.cost}`;
-                // finishDate.textContent = data.finishDate.toDateString(); //this gives the date in the format "Wed Aug 25 2021"
-                finishDate.textContent = data.finishDate.toISOString().split('T')[0]; //this gives the date in the format "2021-08-25"
-                // Clear the task container
-                taskContainer.innerHTML = '';
-
-                // Append each task's UI to the task container
-                data.taskList.forEach((task) => {
-                taskContainer.appendChild(task.taskUi);
-                this.currentProject.taskList = this.currentProject.taskManager.tasks;
-        });
-        }
-    }
+    
 
     setupEditForm(){ 
         const editModal = document.getElementById("edit-project-modal")
@@ -188,10 +155,11 @@ export class ProjectsManager {
         reader.addEventListener('load', ()=>{
             const json = reader.result
             if(!json){return}
-            const projects: IProject[] = JSON.parse(json as string)
+            const projects: Project[] = JSON.parse(json as string)
             for(const project of projects){
                 try{
-                    this.newProject(project)
+                   const readProject= this.newProject(project)
+                   readProject.taskManager = project.taskManager
                 }catch(error){
                     console.error(error)
                 }

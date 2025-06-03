@@ -28,6 +28,11 @@
     font-family: 'Inter', sans-serif;
 }
 
+a{
+    text-decoration: none;
+    color: var(--primary900);
+}
+
 #app {
     display: grid;
     grid-template-columns: 300px 1fr;
@@ -165,6 +170,8 @@ li {
     padding: 10px 20px;
     gap: 10px;
     grid-template-columns: repeat(auto-fill, minmax(350px,1fr));
+    max-height: 80vh;
+    overflow-y: auto;
 }
 
 /* form styles */
@@ -304,7 +311,8 @@ input:focus, textarea:focus, select:focus{
 
 /* task form styles */
 .task-form{
-margin: 10px;
+width: 90%;
+padding: 10px;
 display: flex;
 gap: 10px;
 justify-content: space-around;
@@ -319,8 +327,8 @@ border: solid 1px white;
 #to-do-header{
     display: flex;
     justify-content: space-between;
-    margin: 10px;
     align-items: center;
+    min-width: 280px;
 }
 
 #to-do-search, .to-do-item, .to-do-desc{
