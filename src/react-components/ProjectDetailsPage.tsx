@@ -1,21 +1,26 @@
 import * as React from 'react';
 import * as Router from 'react-router-dom';
+import * as globalFunctions from '../classes/GlobalFunctions';
 import { ProjectsManager } from '../classes/ProjectsManager';
+import { Project,IProject ,UserRole } from '../classes/Project';
+import { ProjectForm } from './ProjectForm';
 import { DashboardCard } from './DashboardCard';
 import { SearchBox } from './SearchBox';
 import { TaskForm } from './TaskForm';
-import { Task,ITask } from '../classes/TaskManager';
+import { Task,ITask,TaskManager } from '../classes/TaskManager';
 import { Status } from "../classes/Project"
 import { TaskContainer } from './TaskContainer';
+import { ShowPopUp } from '../classes/GlobalFunctions';
+import { div } from 'three/examples/jsm/nodes/Nodes.js';
 interface Props {
     projectsManager: ProjectsManager;
 }
 
 export function ProjectDetailsPage(props: Props) {
     const routeParams = Router.useParams<{ id: string }>();
-    const project = props.projectsManager.getProject(
-        routeParams.id ? routeParams.id : '0'
-    );
+    const project = props.projectsManager.getProject(routeParams.id ? routeParams.id : '0') 
+    const [projectVersion, setProjectVersion] = React.useState(0);
+    
     if (!project) {
         console.error('Project with id: ', routeParams.id, ' not found');
         return <> </>;
@@ -23,6 +28,7 @@ export function ProjectDetailsPage(props: Props) {
     if (!props.projectsManager) {
         return <> </>;
     }
+// const [currentProject, setCurrentProject] = React.useState<Project>(project);    
 const taskManager = project.taskManager
 //Handling new task creation----Start-----
 const [showAddTaskForm, setShowAddTaskForm] = React.useState(false);
@@ -48,6 +54,48 @@ const onAddTaskFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         hideAddTaskForm();
     }
 //Handling new task creation----End-----
+//Handling Edit project----Start-----
+const onEditProjectClick = (project: Project) => {
+    const editProjectModal = document.getElementById('edit-project-modal');
+        if (!(editProjectModal&& editProjectModal instanceof HTMLDialogElement)) {return}
+        else {
+            console.warn('Updating Project',project);
+            editProjectModal.showModal();
+        }
+}
+const onEditProjectFormSubmit = (e: React.FormEvent) => {
+    const editProjectForm = document.getElementById('edit-project-form') as HTMLFormElement;
+    const editProjectModal = document.getElementById('edit-project-modal') as HTMLDialogElement;
+    console.log("form submit");
+    e.preventDefault();
+            const formData = new FormData(editProjectForm);
+            const projectData: Project = {
+                name: formData.get('name') as string,
+                description: formData.get('description') as string,
+                finishDate: formData.get('finishDate') ? new Date(formData.get('finishDate') as string) : new Date(), // create a Edit date object from the form input as string
+                userRole: formData.get('userRole') as UserRole,
+                status: formData.get('status') as Status,
+                icon: globalFunctions.getNameInitials(formData.get('name') as string),
+                cost: 0,
+                progress:0,
+                id: project.id,
+                color: project.color,
+                taskManager: project.taskManager,
+            };
+            try {
+                props.projectsManager.updateProject(project, projectData); 
+                setProjectVersion(projectVersion + 1);
+                editProjectForm.reset();
+                editProjectModal.close()
+                
+            } catch (error) {
+                ShowPopUp('error', error.message);}
+    
+}
+
+//Handling Edit project----End-----
+
+
 //Handling Edit task----Start-----
 
 const [showEditTaskForm, setShowEditTaskForm] = React.useState(false);
@@ -83,7 +131,7 @@ const onEditTaskFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
                 className="page"
                 id="project-details"
             >
-                <dialog id="edit-project-modal">
+                {/* <dialog id="edit-project-modal">
                     <form id="edit-project-form">
                         <h2>Edit Project</h2>
                         <div className="input-list">
@@ -178,7 +226,9 @@ const onEditTaskFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
                             </button>
                         </div>
                     </form>
-                </dialog>
+                </dialog> */}
+                <ProjectForm project={project} formName='Update Task' modalId='edit-project-modal' formId='edit-project-form' onSubmit={onEditProjectFormSubmit}></ProjectForm>
+                            
                 <header>
                     <div>
                         <h2 data-project-info="name">{project.name}</h2>
@@ -202,6 +252,7 @@ const onEditTaskFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
                                     <button
                                         id="edit-props.project-btn"
                                         className="blank-btn"
+                                        onClick={()=>{onEditProjectClick(project)}}
                                     >
                                         Edit
                                     </button>
@@ -260,7 +311,7 @@ const onEditTaskFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
                                     <div id="to-do-header">
                                         <h4 style={{ width: '65px' }}>To-Do</h4>
                                         <SearchBox
-                                            onChange={() => {}}
+                                            onChange={(value)=>{taskManager.onTaskSearch(value)}}
                                             placeholder="Search To-do"
                                         />
                                         <button onClick={onAddTaskClick}
@@ -279,16 +330,23 @@ const onEditTaskFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
                                 <>
                                     {showAddTaskForm && (<TaskForm id={'add-task-form'} onClose={hideAddTaskForm} onSubmit={onAddTaskFormSubmit}/>)}
                                     {showEditTaskForm && (<TaskForm task={editTask} id={'edit-task-form'} onClose={hideEditTaskForm} onSubmit={onEditTaskFormSubmit}/>)}
+                                    <div className="to-do-container" style={{flexGrow: 1}}>
                                     <TaskContainer key={0} taskManager={taskManager} onTaskEdit={onEditTaskClick}/>
+                                    </div>
                                 </>
                             }
                         ></DashboardCard>
                     </div>
-                    <div
-                        id="viewer-container"
-                        className="dashboard-card"
-                        style={{ minWidth: 0 }}
-                    />
+                    <DashboardCard
+                    project={project}
+                    headerContent={<>3D Viewer</>}
+                    mainContent={<div id="viewer-container" 
+                    className="dashboard-card" 
+                    style={{ minWidth: 0 }}>fff</div>}
+                    >
+                        
+                    </DashboardCard>
+                    
                 </div>
             </div>
         </>

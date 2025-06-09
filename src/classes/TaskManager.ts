@@ -34,6 +34,7 @@ export class Task implements ITask{
 export class TaskManager{
     tasks: Task[] = []
     onTaskCreate = () => {}
+    onTaskSearch = (searchTerm:string) => {}
     onTaskDelete = (id:string) => {}
 
     constructor(){}
@@ -62,4 +63,10 @@ export class TaskManager{
        task.color = taskStatus[`${task.taskStatus}`];
     }
 }
+filterTasks(value: string) {
+        const filteredTasks = this.tasks.filter((Task) =>{
+        return Task.taskDesc.includes(value)
+    })
+        return filteredTasks;
+    }
 }

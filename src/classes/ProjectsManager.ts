@@ -1,11 +1,13 @@
 import { genColorFn, getNameInitials, show, toggleModal } from './GlobalFunctions';
 import { IProject, Project } from './Project';
+import { Task, TaskManager } from './TaskManager';
 
 export class ProjectsManager {
     projectsList: Project[] = [];
     currentProject: Project;
     onProjectCreated = () => {}
     onProjectDeleted = () => {}
+    onProjectUpdated = () => {}
     constructor() {
        
         const defaultProjectData: IProject = {
@@ -43,14 +45,9 @@ export class ProjectsManager {
         return project;
     }
 
-    updateProject(data: IProject) {
-        const project =  new Project(data)
-        const projectNames = this.projectsList.map((project) => {
-            return project.name;
-        });
-
-        const nameInUse = this.projectsList.some((project) => {
-            return project.name === data.name && project !== this.currentProject;
+    updateProject(project:Project,data: IProject) {
+        const nameInUse = this.projectsList.some((p) => {
+            return p.name === data.name && p !== project
         });
         
         if (nameInUse) {
@@ -60,18 +57,16 @@ export class ProjectsManager {
         if (data.name.length < 5) {
             throw new Error('Project name must be at least 5 characters long');
         }
-        this.currentProject.name = data.name;
-        this.currentProject.description = data.description;
-        this.currentProject.status = data.status;
-        this.currentProject.finishDate = data.finishDate;
-        this.currentProject.userRole = data.userRole;
-
-        
+        for (const key in data) {
+            project[key] = data[key];
+        }
+        this.onProjectUpdated()
+        return project;
     }
 
     filterProjects(value: string) {
         const filteredProjects = this.projectsList.filter((project) =>{
-        return project.name.includes(value) || project.description.includes(value)
+        return project.name.toLowerCase().includes(value) || project.description.toLowerCase().includes(value)
     })
         return filteredProjects;
     }
@@ -159,7 +154,11 @@ export class ProjectsManager {
             for(const project of projects){
                 try{
                    const readProject= this.newProject(project)
-                   readProject.taskManager = project.taskManager
+                //    console.log(project.taskManager);
+                   readProject.taskManager = new TaskManager()
+                     readProject.taskManager.tasks = project.taskManager.tasks.map((task) => {
+                          return new Task(task);
+                     });
                 }catch(error){
                     console.error(error)
                 }

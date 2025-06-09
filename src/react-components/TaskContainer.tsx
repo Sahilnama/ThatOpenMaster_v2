@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Task, TaskManager } from '../classes/TaskManager';
 
 interface Props {
@@ -8,7 +8,7 @@ interface Props {
 
 export function TaskContainer(props: Props) {
     const [tasks, setTasks] = React.useState<Task[]>(props.taskManager.tasks); // Initialize with the first task
-
+    
     props.taskManager.onTaskCreate = () =>{
         setTasks([...props.taskManager.tasks]);
         console.log("Task list updated");
@@ -17,6 +17,11 @@ export function TaskContainer(props: Props) {
     props.taskManager.onTaskDelete = (id: string) => {
         props.taskManager.deleteTask(id);
         setTasks([...props.taskManager.tasks]);
+    };
+
+    props.taskManager.onTaskSearch = (searchTerm: string) => {
+        const filteredTasks = props.taskManager.filterTasks(searchTerm);
+        setTasks([...filteredTasks]);
     };
     const taskCards = tasks.map((task) => {
         if (!task) return null;

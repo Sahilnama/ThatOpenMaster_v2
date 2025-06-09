@@ -10,7 +10,7 @@ interface Props {
         <div className="search-box" style={{display: "flex", alignItems: "center", width: "100%", maxWidth: "400px", backgroundColor: "var(--background-100)", borderRadius: "5px", padding: "5px", border: "1px solid var(--background-200)"}}>
             <span style={{ margin: 2 }}className="material-symbols-outlined">search</span>
             <input 
-            onChange = {(e)=>{props.onChange(e.target.value)}}
+            onChange = {(e)=>{props.onChange(e.target.value.toLowerCase())}}
             type="text" 
             placeholder= {props.placeholder || "Search..." }
             style={{width: "100%", 

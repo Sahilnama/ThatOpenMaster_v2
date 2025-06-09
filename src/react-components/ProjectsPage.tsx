@@ -3,6 +3,7 @@ import{ toggleModal, ShowPopUp } from '../classes/GlobalFunctions'
 import { IProject, Project, Status, UserRole } from '../classes/Project';
 import { ProjectsManager } from '../classes/ProjectsManager';
 import { ProjectCard } from './ProjectCard';
+import { ProjectForm } from './ProjectForm';
 import { SearchBox } from './SearchBox';
 import * as Router from 'react-router-dom';
 import { div } from 'three/examples/jsm/nodes/Nodes.js';
@@ -24,16 +25,18 @@ export function ProjectsPage(props: Props) {
         </Router.Link>) 
         })
 
-    React.useEffect(() => {console.log("Project list updated:", projects);}, [projects])
+    // React.useEffect(() => {console.log("Project list updated:", projects);}, [projects])
 
+  
+//Handling new project creation----start-----
   const onNewProjectClick = () => {
-    //Handling new project creation----start-----
     const newProjectModal = document.getElementById('new-project-modal');
     if (!(newProjectModal&& newProjectModal instanceof HTMLDialogElement)) {return}
     else {
         console.warn('New Project creation');
         toggleModal(newProjectModal, true);
     }
+    
   }
 
   const onNewProjectFormSubmit = (e: React.FormEvent) => {
@@ -70,103 +73,15 @@ export function ProjectsPage(props: Props) {
    }
 
     return (
-        <div
-            className="page"
-            id="projects-page"
-        >
-            <dialog id="new-project-modal">
-                <form onSubmit={onNewProjectFormSubmit} id="new-project-form">
-                    <h2>New Project</h2>
-                    <div className="input-list">
-                        <div className="form-field-container">
-                            <label>
-                                <span className="material-symbols-rounded">
-                                    apartment
-                                </span>{' '}
-                                &nbsp; Name
-                            </label>
-                            <input
-                                name="name"
-                                type="text"
-                                placeholder="Project name"
-                            />
-                            <p>Tip: Give a short name</p>
-                        </div>
-                        <div className="form-field-container">
-                            <label>
-                                <span className="material-symbols-outlined">
-                                    subject
-                                </span>{' '}
-                                &nbsp; Description
-                            </label>
-                            <textarea
-                                name="description"
-                                cols={30}
-                                rows={5}
-                                placeholder="Project description"
-                                defaultValue={''}
-                            />
-                        </div>
-                        <div className="form-field-container">
-                            <label htmlFor="">
-                                <span className="material-symbols-outlined">
-                                    account_circle
-                                </span>
-                                &nbsp; Role
-                            </label>
-                            <select name="userRole">
-                                <option>Architect</option>
-                                <option>Engineer</option>
-                                <option>Developer</option>
-                            </select>
-                        </div>
-                        <div className="form-field-container">
-                            <label htmlFor="">
-                                <span className="material-symbols-outlined">
-                                    work_history
-                                </span>
-                                &nbsp; Status
-                            </label>
-                            <select name="status">
-                                <option>Active</option>
-                                <option>Inactive</option>
-                            </select>
-                        </div>
-                        <div className="form-field-container">
-                            <label htmlFor="">
-                                <span className="material-symbols-outlined">
-                                    calendar_month
-                                </span>
-                                &nbsp; Finish Date
-                            </label>
-                            <input
-                                name="finishDate"
-                                type="date"
-                            />
-                        </div>
-                    </div>
-                    <div id="form-buttons">
-                        <button
-                            type="reset"
-                            className="blank-btn"
-                        >
-                            Cancel
-                        </button>
-                        <button
-                            type="submit"
-                            className="blank-btn"
-                        >
-                            Create
-                        </button>
-                    </div>
-                </form>
-            </dialog>
+        <div className="page"  id="projects-page">
+            <ProjectForm formName='New Task' modalId='new-project-modal' formId='new-project-form' onSubmit={onNewProjectFormSubmit}></ProjectForm>
+            
             <header className="page-header">
                 <h2>Projects</h2>
                 <SearchBox onChange={(value) => onProjectSearch(value)} placeholder='Search project by name or description'/>
                 <div style={{display: 'flex',alignItems: 'center',columnGap: 15,}}>
-                    <span onClick={onExportProjectsClick} style={{ cursor: 'pointer' }} id="import-projects-btn" className="material-symbols-outlined">file_upload</span>
-                    <span onClick={onImportProjectsClick} style={{ cursor: 'pointer' }}id="export-projects-btn" className="material-symbols-outlined">file_download</span>
+                    <span title='Export Projects' onClick={onExportProjectsClick} style={{ cursor: 'pointer' }} id="import-projects-btn" className="material-symbols-outlined">file_upload</span>
+                    <span title='Import Projects' onClick={onImportProjectsClick} style={{ cursor: 'pointer' }}id="export-projects-btn" className="material-symbols-outlined">file_download</span>
                     <button onClick={onNewProjectClick} className="blue-btn"id="new-project-btn">
                         <span className="material-symbols-rounded">add</span>
                         &nbsp; New Project
