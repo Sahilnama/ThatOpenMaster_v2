@@ -76,7 +76,7 @@ export const HidePopUpAutoOrWhenClosed = () => {
 }
 
 export const getNameInitials = (name: string) => {    
-    const initials = name.split(' ').slice(0,2).map((n) => n[0]).join('');
+    const initials = name.trim().split(' ').slice(0,2).map((n) => n[0]).join('');
     return initials.toUpperCase();
     
 }

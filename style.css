@@ -123,12 +123,13 @@ li {
 
 .project-card {
     background-color: var(--background-100);
-    width: fit-content;
+    /* width: fit-content; */
     margin: 20px;
     padding: 20px;
     border-radius: 8px;
     cursor: pointer;
     min-width: 280px;
+    max-width: 350px;
 }
 
 .project-card:hover {

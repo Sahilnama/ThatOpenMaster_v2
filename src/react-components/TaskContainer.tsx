@@ -4,6 +4,7 @@ import { Task, TaskManager } from '../classes/TaskManager';
 interface Props {
     taskManager: TaskManager;
     onTaskEdit: (task: Task) => void;
+    // onTaskDeleted: (task: Task) => void;
 }
 
 export function TaskContainer(props: Props) {

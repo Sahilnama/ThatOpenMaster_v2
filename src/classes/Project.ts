@@ -29,7 +29,7 @@ export class Project implements IProject {
     taskManager: TaskManager
 
 
-    constructor(data: IProject) {
+    constructor(data: IProject, id = uuidv4()) {
         for(const key in data){
             this[key] = data[key];
         }
@@ -39,7 +39,7 @@ export class Project implements IProject {
         // this.userRole = data.userRole;
         this.finishDate = new Date(data.finishDate)
         this.icon = getNameInitials(this.name);
-        this.id = uuidv4();
+        this.id = id
         // this.taskList = []
         this.taskManager = new TaskManager()
     }
