@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import { getNameInitials, genColorFn } from './GlobalFunctions';
+import { getNameInitials, genColorFn } from './GlobalFunctions.ts';
 import{ITask, Task, TaskManager} from './TaskManager.ts'
 
 export type UserRole = 'Architect' | 'Engineer' | 'Developer';

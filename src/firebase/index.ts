@@ -8,7 +8,7 @@ import * as Firestore from "firebase/firestore";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyBsWCOyedzY3el0byJVpw0nKQhAFnh7cOw",
+  apiKey: "AIzaSyDiqPnvWLtihr85dmwqd55bAd2ZKOIdm3Y",
   authDomain: "the-bimdesk.firebaseapp.com",
   projectId: "the-bimdesk",
   storageBucket: "the-bimdesk.firebasestorage.app",
