@@ -2,8 +2,8 @@ export type PopType = 'error' | 'warn' | 'info' | 'success';
 
 
 
-export const toggleModal = (id: string, state: true|false) => {
-    const modal = document.getElementById(id);
+export const toggleModal = (modal: HTMLDialogElement, state: true|false) => {
+    // const modal = document.getElementById(id);
     if (modal && modal instanceof HTMLDialogElement) {
         // check if modal is a dialog element as all html elements do not have toggleModal method
         if (state == false) {
@@ -14,12 +14,12 @@ export const toggleModal = (id: string, state: true|false) => {
             console.warn('Invalid state value');
         }
     } else {
-        console.warn(`Modal named ${id} not found`);
+        console.warn(`Modal named ${modal} not found`);
     }
 };
 
+const popUp = document.getElementById('pop-up-modal') as HTMLDialogElement;
 export const ShowPopUp = (type: PopType, message: string) => {
-    const popUp = document.getElementById('pop-up-modal') as HTMLElement;
 
     if (popUp) {
         switch (type) {
@@ -58,17 +58,17 @@ export const ShowPopUp = (type: PopType, message: string) => {
         console.warn('Pop-up modal not found');
     }
 
-    toggleModal('pop-up-modal', true);
+    toggleModal(popUp, true);
 }
 
 export const HidePopUpAutoOrWhenClosed = () => {
     const closeBtn = document.querySelector('.close-btn');
     if(closeBtn){
         closeBtn.addEventListener('click', () => {
-            toggleModal('pop-up-modal', false);
+            toggleModal(popUp, false);
         });
         setTimeout(() => {
-            toggleModal('pop-up-modal', false);
+            toggleModal(popUp, false);
           }, 1000);
     }else{  
         console.warn('Close button not found');
@@ -76,7 +76,7 @@ export const HidePopUpAutoOrWhenClosed = () => {
 }
 
 export const getNameInitials = (name: string) => {    
-    const initials = name.split(' ').slice(0,2).map((n) => n[0]).join('');
+    const initials = name.trim().split(' ').slice(0,2).map((n) => n[0]).join('');
     return initials.toUpperCase();
     
 }
