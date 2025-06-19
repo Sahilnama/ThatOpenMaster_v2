@@ -44,6 +44,8 @@ export function ProjectDetailsPage(props: Props) {
         props.projectsManager.deleteProject(id)
         navigateTo('/');
     };
+    
+
     const taskCollection = FB.getCollection<ITask>(`/projects/${project.id}/Tasks`);
     const getFirestoreTasks = async () => {
         const firebaseTasks = await Firestore.getDocs(taskCollection);
