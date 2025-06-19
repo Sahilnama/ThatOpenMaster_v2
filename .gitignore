@@ -24,3 +24,4 @@ src/firebase/
 *.njsproj
 *.sln
 *.sw?
+.firebase

@@ -4,7 +4,7 @@ import { Task, TaskManager } from '../classes/TaskManager';
 interface Props {
     taskManager: TaskManager;
     onTaskEdit: (task: Task) => void;
-    // onTaskDeleted: (task: Task) => void;
+    onTaskDeleted: (task: Task) => void;
 }
 
 export function TaskContainer(props: Props) {
@@ -52,8 +52,11 @@ export function TaskContainer(props: Props) {
                                 </span>
                             </button>
                             <button
-                                onClick={() =>
+                                onClick={() =>{
+
                                     props.taskManager.onTaskDelete(task.id)
+                                    props.onTaskDeleted(task)
+                                }
                                 }
                                 className="void-btn delete-task"
                             >

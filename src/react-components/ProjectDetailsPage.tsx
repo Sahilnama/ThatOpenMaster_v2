@@ -200,11 +200,11 @@ export function ProjectDetailsPage(props: Props) {
         hideEditTaskForm();
     };
     //Handling Edit task----End-----
-    // const onTaskDeleted = (task:Task) => {
-    //     const taskDocRef = Firestore.doc(taskCollection, task.id);
-    //     Firestore.deleteDoc(taskDocRef);
-    //     console.log(task);
-    // };
+    const onTaskDeleted = (task:Task) => {
+        const taskDocRef = Firestore.doc(taskCollection, task.id);
+        Firestore.deleteDoc(taskDocRef);
+        console.log(task);
+    };
 
     return (
         <>
@@ -220,14 +220,14 @@ export function ProjectDetailsPage(props: Props) {
                     onSubmit={onEditProjectFormSubmit}
                 ></ProjectForm>
 
-                <header>
+                <header style={{ display: 'flex', justifyContent: 'space-between'}}>
                     <div>
                         <h2 data-project-info="name">{project.name}</h2>
                         <p data-project-info="description">
                             {project.description}
                         </p>
                     </div>
-                    <button
+                    <button className='void-btn'style={{ backgroundColor: 'red', height: "40px", width:'100px'}}
                         onClick={() => {
                             props.projectsManager.onProjectDeleted(project.id);
                         }}
@@ -356,7 +356,7 @@ export function ProjectDetailsPage(props: Props) {
                                             key={0}
                                             taskManager={taskManager}
                                             onTaskEdit={onEditTaskClick}
-                                            // onTaskDeleted={onTaskDeleted}
+                                            onTaskDeleted={onTaskDeleted}
                                         />
                                     </div>
                                 </>
