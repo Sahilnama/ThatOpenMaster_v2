@@ -62,7 +62,6 @@ export function ProjectDetailsPage(props: Props) {
                 if (taskManager.tasks.some(t => t.id === doc.id)) {
                     return;
                 }
-                console.log(taskManager.tasks);
                 taskManager.newTask(task, doc.id);
                 project.taskManager.onTaskCreate();
             } catch (error) {
@@ -203,7 +202,6 @@ export function ProjectDetailsPage(props: Props) {
     const onTaskDeleted = (task:Task) => {
         const taskDocRef = Firestore.doc(taskCollection, task.id);
         Firestore.deleteDoc(taskDocRef);
-        console.log(task);
     };
 
     return (

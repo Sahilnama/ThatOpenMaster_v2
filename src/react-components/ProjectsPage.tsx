@@ -26,27 +26,27 @@ export function ProjectsPage(props: Props) {
     // };
 
     
-    const getFirestoreProjects = async () => {
-        const firebaseProjects = await Firestore.getDocs(projectCollection);
-        for (const doc of firebaseProjects.docs) {
-            const data = doc.data();
-            const project: IProject = {
-                ...data,
-                finishDate: (
-                    data.finishDate as unknown as Firestore.Timestamp
-                ).toDate(),
-            };
-            try {
-                props.projectsManager.newProject(project, doc.id);
-            } catch (error) {
-                props.projectsManager.updateProject(doc.id, project);
-            }
-        }
-    };
+    // const getFirestoreProjects = async () => {
+    //     const firebaseProjects = await Firestore.getDocs(projectCollection);
+    //     for (const doc of firebaseProjects.docs) {
+    //         const data = doc.data();
+    //         const project: IProject = {
+    //             ...data,
+    //             finishDate: (
+    //                 data.finishDate as unknown as Firestore.Timestamp
+    //             ).toDate(),
+    //         };
+    //         try {
+    //             props.projectsManager.newProject(project, doc.id);
+    //         } catch (error) {
+    //             props.projectsManager.updateProject(doc.id, project);
+    //         }
+    //     }
+    // };
 
-    React.useEffect(() => {
-        getFirestoreProjects();
-    }, []);
+    // React.useEffect(() => {
+    //     getFirestoreProjects();
+    // }, []);
 
     const projectCards = projects.map((project) => {
         return (

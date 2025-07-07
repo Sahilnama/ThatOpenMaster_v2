@@ -12,7 +12,6 @@ export function TaskContainer(props: Props) {
     
     props.taskManager.onTaskCreate = () =>{
         setTasks([...props.taskManager.tasks]);
-        console.log("Task list updated");
     }
 
     props.taskManager.onTaskDelete = (id: string) => {

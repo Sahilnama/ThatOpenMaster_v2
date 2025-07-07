@@ -1,31 +1,62 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom/client';
-import { Sidebar} from './react-components/Sidebar';
-
-import { IProject, UserRole, Status } from './classes/Project';
+import { Sidebar } from './react-components/Sidebar';
 import { ProjectsManager } from './classes/ProjectsManager';
-import {toggleModal, ShowPopUp, hide} from './classes/GlobalFunctions';
-import { ITask} from './classes/TaskManager';
 import { ProjectsPage } from './react-components/ProjectsPage';
-import * as Router from 'react-router-dom';
 import { ProjectDetailsPage } from './react-components/ProjectDetailsPage';
+import * as Router from 'react-router-dom';
+import * as Firestore from 'firebase/firestore';
+import { getCollection } from './firebase';
+import { IProject } from './classes/Project';
 
 const projectsManager = new ProjectsManager();
-const rootElement = document.getElementById('app') as HTMLElement;
-const appRoot = ReactDOM.createRoot(rootElement)
-appRoot.render(
-    <>
+const projectCollection = getCollection<IProject>('/projects');
+
+function App() {
+    const [loading, setLoading] = React.useState(true);
+
+    React.useEffect(() => {
+        async function fetchProjects() {
+            const firebaseProjects = await Firestore.getDocs(projectCollection);
+            for (const doc of firebaseProjects.docs) {
+                const data = doc.data();
+                const project: IProject = {
+                    ...data,
+                    finishDate: (
+                        data.finishDate as unknown as Firestore.Timestamp
+                    ).toDate(),
+                };
+                try {
+                    projectsManager.newProject(project, doc.id);
+                } catch {
+                    projectsManager.updateProject(doc.id, project);
+                }
+            }
+            setLoading(false);
+        }
+        fetchProjects();
+    }, []);
+
+    if (loading) return <div>Loading...</div>;
+    // React.useEffect(()=>{
+        
+    // })
+    return (
         <Router.BrowserRouter>
             <Sidebar />
             <Router.Routes>
-                <Router.Route path="/" element={<ProjectsPage projectsManager={projectsManager}/>}/>
-                <Router.Route path="/project/:id" element={<ProjectDetailsPage projectsManager={projectsManager}/>}/>
-                {/* <Router.Route path="/project/:id" element={(projectsManager.projectsList.length !=0)?<ProjectDetailsPage projectsManager={projectsManager}/>:<div>loading...</div>}/> */}
+                <Router.Route path="/" element={<ProjectsPage projectsManager={projectsManager} />} />
+                <Router.Route path="/project/:id" element={<ProjectDetailsPage projectsManager={projectsManager} />} />
             </Router.Routes>
         </Router.BrowserRouter>
-    </>
-);
+    );
+}
 
+const rootElement = document.getElementById('app') as HTMLElement;
+const appRoot = ReactDOM.createRoot(rootElement);
+appRoot.render(<App />);
+
+/*
 const projectsList = document.getElementById('project-list') as HTMLElement;
 
 const projectDetails = document.getElementById('project-details') as HTMLElement;
@@ -92,3 +123,5 @@ addProjectTaskBtn?.addEventListener('click', () => {
         
     }
 });
+
+*/
