@@ -3,18 +3,21 @@ import * as ReactDOM from 'react-dom/client';
 import { Sidebar } from './react-components/Sidebar';
 import { ProjectsManager } from './classes/ProjectsManager';
 import { ProjectsPage } from './react-components/ProjectsPage';
+import { UsersPage } from './react-components/UsersPage';
+import { Login } from './react-components/Login';
 import { ProjectDetailsPage } from './react-components/ProjectDetailsPage';
 import * as Router from 'react-router-dom';
 import * as Firestore from 'firebase/firestore';
 import { getCollection } from './firebase';
 import { IProject } from './classes/Project';
+import AuthRoute from './react-components/AuthRoute';
 
 const projectsManager = new ProjectsManager();
 const projectCollection = getCollection<IProject>('/projects');
 
 function App() {
     const [loading, setLoading] = React.useState(true);
-
+    /*
     React.useEffect(() => {
         async function fetchProjects() {
             const firebaseProjects = await Firestore.getDocs(projectCollection);
@@ -37,16 +40,50 @@ function App() {
         fetchProjects();
     }, []);
 
-    if (loading) return <div>Loading...</div>;
-    // React.useEffect(()=>{
-        
-    // })
+    
+    // const navigateTo = Router.useNavigate();
+    if (loading) return (
+        <Router.BrowserRouter>
+            
+            <Router.Routes>
+                <Router.Route path="/login" element={<Login/>} />
+            </Router.Routes>
+        </Router.BrowserRouter>
+    )
+    
+*/
+
     return (
         <Router.BrowserRouter>
-            <Sidebar />
             <Router.Routes>
-                <Router.Route path="/" element={<ProjectsPage projectsManager={projectsManager} />} />
-                <Router.Route path="/project/:id" element={<ProjectDetailsPage projectsManager={projectsManager} />} />
+                <Router.Route
+                    path="/"
+                    element={
+                        <AuthRoute>
+                            <Sidebar />
+                            <ProjectsPage projectsManager={projectsManager} />
+                        </AuthRoute>                        
+                    }
+                />
+                <Router.Route
+                    path="/project/:id"
+                    element={
+                        <>
+                            <Sidebar />
+                            <ProjectDetailsPage
+                                projectsManager={projectsManager}
+                            />
+                        </>
+                    }
+                />
+                <Router.Route
+                    path="/users"
+                    element={<UsersPage />}
+                />
+                <Router.Route
+                    path="/login"
+                    element={<Login />}
+                />
             </Router.Routes>
         </Router.BrowserRouter>
     );
@@ -54,7 +91,7 @@ function App() {
 
 const rootElement = document.getElementById('app') as HTMLElement;
 const appRoot = ReactDOM.createRoot(rootElement);
-appRoot.render(<App />);
+appRoot.render(<App/>);
 
 /*
 const projectsList = document.getElementById('project-list') as HTMLElement;
